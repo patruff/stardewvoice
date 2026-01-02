@@ -484,13 +484,16 @@ class BundleTracker {
                 const collectedCount = collectedInBundle.length;
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
-                // Check if bundle has items for current season
-                const hasSeasonalItems = bundle.items.some(item =>
-                    item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
-                );
+                // Check if bundle has UNCOLLECTED items for current season
+                const hasSeasonalItemsNeeded = bundle.items.some(item => {
+                    // Skip already collected items
+                    if (collectedInBundle.includes(item.name)) return false;
+                    // Check if this uncollected item is available in current season
+                    return item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase());
+                });
 
-                // Skip bundle if strict mode and no seasonal items (unless completed)
-                if (this.strictMode && !hasSeasonalItems && !isComplete) {
+                // Skip bundle if strict mode and no seasonal items needed (unless completed)
+                if (this.strictMode && !hasSeasonalItemsNeeded && !isComplete) {
                     continue;
                 }
 
@@ -503,7 +506,7 @@ class BundleTracker {
                     collectedInBundle,
                     collectedCount,
                     isComplete,
-                    hasSeasonalItems
+                    hasSeasonalItemsNeeded
                 });
             }
         }
