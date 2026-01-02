@@ -41,6 +41,19 @@ The app tracks all Community Center bundles:
 - **Bulletin Board**: Chef's, Dye, Field Research, Fodder, Enchanter's
 - **Vault**: Gold bundles (2,500g - 25,000g)
 
+## Quick Deploy to Your Phone
+
+### Fastest Method: GitHub Actions 🚀
+
+1. Push your code to GitHub
+2. Go to **Actions** tab → **Quick Deploy to Device**
+3. Click **Run workflow**
+4. Wait 2-3 minutes
+5. Download APK from **Artifacts**
+6. Install on your phone!
+
+See [DEPLOY.md](DEPLOY.md) for detailed deployment instructions.
+
 ## Building the App
 
 ### Prerequisites
@@ -67,11 +80,17 @@ cd stardewvoice
 
 ### Building APK
 
+**Local build:**
 ```bash
 ./gradlew assembleDebug
 ```
 
 The APK will be located at: `app/build/outputs/apk/debug/app-debug.apk`
+
+**CI/CD build:**
+- Every push automatically builds APK via GitHub Actions
+- Download from Actions → Artifacts
+- Or create a release tag: `git tag v1.0.0 && git push origin v1.0.0`
 
 ## Permissions
 
