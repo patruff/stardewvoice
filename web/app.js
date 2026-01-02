@@ -127,12 +127,17 @@ class BundleTracker {
             this.strictMode = e.target.checked;
         });
 
+        // Quick progress button (in settings bar)
+        document.getElementById('quickProgressBtn').addEventListener('click', () => {
+            this.showProgress();
+        });
+
         // Voice button
         document.getElementById('voiceBtn').addEventListener('click', () => {
             this.toggleVoiceRecognition();
         });
 
-        // Progress button
+        // Progress button (bottom)
         document.getElementById('progressBtn').addEventListener('click', () => {
             this.showProgress();
         });
@@ -462,21 +467,59 @@ class BundleTracker {
     showProgress() {
         let total = 0;
         let completed = 0;
-        let result = '📊 Bundle Progress:\n\n';
+        let result = `📊 Bundle Progress${this.strictMode ? ` - ${this.currentSeason.charAt(0).toUpperCase() + this.currentSeason.slice(1)}` : ''}:\n\n`;
+
+        // First pass: collect bundle info
+        const bundlesByCategory = {};
 
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
-            result += `━━━━━ ${category.name} ━━━━━\n\n`;
+            bundlesByCategory[categoryKey] = {
+                name: category.name,
+                bundles: []
+            };
 
             for (const [bundleKey, bundle] of Object.entries(category.bundles)) {
-                total++;
                 const bundleId = `${categoryKey}.${bundleKey}`;
                 const collectedInBundle = this.progress.collectedItems[bundleId] || [];
                 const collectedCount = collectedInBundle.length;
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
+                // Check if bundle has items for current season
+                const hasSeasonalItems = bundle.items.some(item =>
+                    item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
+                );
+
+                // Skip bundle if strict mode and no seasonal items (unless completed)
+                if (this.strictMode && !hasSeasonalItems && !isComplete) {
+                    continue;
+                }
+
+                total++;
+                if (isComplete) completed++;
+
+                bundlesByCategory[categoryKey].bundles.push({
+                    bundle,
+                    bundleId,
+                    collectedInBundle,
+                    collectedCount,
+                    isComplete,
+                    hasSeasonalItems
+                });
+            }
+        }
+
+        // Second pass: display bundles
+        for (const [categoryKey, categoryData] of Object.entries(bundlesByCategory)) {
+            // Skip empty categories
+            if (categoryData.bundles.length === 0) continue;
+
+            result += `━━━━━ ${categoryData.name} ━━━━━\n\n`;
+
+            for (const bundleData of categoryData.bundles) {
+                const { bundle, bundleId, collectedInBundle, collectedCount, isComplete } = bundleData;
+
                 // Bundle header
                 if (isComplete) {
-                    completed++;
                     result += `✅ ${bundle.name} - COMPLETE!\n\n`;
                 } else {
                     result += `📦 ${bundle.name} (${collectedCount}/${bundle.required})\n`;
@@ -489,15 +532,27 @@ class BundleTracker {
                         }
                     }
 
-                    // Show needed items
-                    const neededItems = bundle.items.filter(item => !collectedInBundle.includes(item.name));
+                    // Show needed items (filtered by season if strict mode)
+                    let neededItems = bundle.items.filter(item => !collectedInBundle.includes(item.name));
+
+                    if (this.strictMode) {
+                        // Only show items available in current season
+                        neededItems = neededItems.filter(item =>
+                            item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
+                        );
+                    }
+
                     const stillNeeded = bundle.required - collectedCount;
 
                     if (neededItems.length > 0) {
-                        result += `  Still Needed (${stillNeeded} more):\n`;
+                        const seasonNote = this.strictMode ? ` (${this.currentSeason})` : '';
+                        result += `  Still Needed (${stillNeeded} more${seasonNote}):\n`;
                         for (const item of neededItems) {
                             result += this.formatProgressItem(item);
                         }
+                    } else if (stillNeeded > 0 && this.strictMode) {
+                        // There are items needed but not available this season
+                        result += `  ℹ️ ${stillNeeded} item(s) needed, but not available in ${this.currentSeason}\n`;
                     }
 
                     result += '\n';
@@ -505,8 +560,18 @@ class BundleTracker {
             }
         }
 
+        if (total === 0 && this.strictMode) {
+            result += `ℹ️ No bundles have items available in ${this.currentSeason}.\nTurn off Strict Mode to see all bundles.\n\n`;
+        }
+
         result += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        result += `Total: ${completed}/${total} bundles complete (${Math.round(completed/total*100)}%)`;
+        const totalBundles = Object.values(this.bundles.bundles).reduce((sum, cat) => sum + Object.keys(cat.bundles).length, 0);
+        result += `Total Progress: ${completed}/${totalBundles} bundles complete (${Math.round(completed/totalBundles*100)}%)`;
+
+        if (this.strictMode) {
+            result += `\nShowing: ${total} ${this.currentSeason} bundles`;
+        }
+
         this.displayText(result);
     }
 

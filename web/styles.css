@@ -99,6 +99,10 @@ body {
     border-radius: 8px;
     margin-bottom: 1rem;
     box-shadow: 0 2px 4px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .toggle-label {
@@ -107,6 +111,7 @@ body {
     gap: 0.5rem;
     cursor: pointer;
     user-select: none;
+    flex: 1;
 }
 
 .toggle-label input[type="checkbox"] {
@@ -150,6 +155,29 @@ body {
     color: var(--text-light);
     font-size: 0.85rem;
     font-style: italic;
+}
+
+.btn-quick-action {
+    background: var(--accent-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px var(--shadow);
+    white-space: nowrap;
+}
+
+.btn-quick-action:hover {
+    background: #1976D2;
+    box-shadow: 0 3px 8px var(--shadow-hover);
+}
+
+.btn-quick-action:active {
+    transform: scale(0.98);
 }
 
 /* Main Content */
@@ -369,6 +397,21 @@ body {
 
     .btn {
         font-size: 0.95rem;
+    }
+
+    .settings-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .toggle-label {
+        justify-content: center;
+    }
+
+    .btn-quick-action {
+        width: 100%;
+        padding: 0.75rem;
     }
 }
 
