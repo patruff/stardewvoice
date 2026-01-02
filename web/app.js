@@ -462,29 +462,117 @@ class BundleTracker {
     showProgress() {
         let total = 0;
         let completed = 0;
-        let result = 'Bundle Progress:\n\n';
+        let result = '📊 Bundle Progress:\n\n';
 
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
-            result += `${category.name}:\n`;
+            result += `━━━━━ ${category.name} ━━━━━\n\n`;
 
             for (const [bundleKey, bundle] of Object.entries(category.bundles)) {
                 total++;
                 const bundleId = `${categoryKey}.${bundleKey}`;
-                const collectedCount = this.progress.collectedItems[bundleId]?.length || 0;
+                const collectedInBundle = this.progress.collectedItems[bundleId] || [];
+                const collectedCount = collectedInBundle.length;
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
+                // Bundle header
                 if (isComplete) {
                     completed++;
-                    result += `  ✓ ${bundle.name} - COMPLETE\n`;
+                    result += `✅ ${bundle.name} - COMPLETE!\n\n`;
                 } else {
-                    result += `  ○ ${bundle.name} - ${collectedCount}/${bundle.required}\n`;
+                    result += `📦 ${bundle.name} (${collectedCount}/${bundle.required})\n`;
+
+                    // Show collected items
+                    if (collectedCount > 0) {
+                        result += `  Collected:\n`;
+                        for (const itemName of collectedInBundle) {
+                            result += `    ✓ ${itemName}\n`;
+                        }
+                    }
+
+                    // Show needed items
+                    const neededItems = bundle.items.filter(item => !collectedInBundle.includes(item.name));
+                    const stillNeeded = bundle.required - collectedCount;
+
+                    if (neededItems.length > 0) {
+                        result += `  Still Needed (${stillNeeded} more):\n`;
+                        for (const item of neededItems) {
+                            result += this.formatProgressItem(item);
+                        }
+                    }
+
+                    result += '\n';
                 }
             }
-            result += '\n';
         }
 
-        result += `Total: ${completed}/${total} bundles complete`;
+        result += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+        result += `Total: ${completed}/${total} bundles complete (${Math.round(completed/total*100)}%)`;
         this.displayText(result);
+    }
+
+    formatProgressItem(item) {
+        let line = `    ○ `;
+
+        // Item name with quantity
+        if (item.quantity > 1) {
+            line += `${item.quantity}x `;
+        }
+        line += item.name;
+
+        // Quality
+        if (item.quality === 'gold') {
+            line += ' ⭐ (Gold)';
+        }
+
+        // Build info line
+        const info = [];
+
+        // Seasons
+        const seasonIcons = {
+            'spring': '🌱',
+            'summer': '☀️',
+            'fall': '🍂',
+            'winter': '❄️'
+        };
+        const seasonStr = item.seasons.map(s => seasonIcons[s.toLowerCase()] || s).join('');
+        info.push(seasonStr);
+
+        // Location
+        if (item.location) {
+            const locationMap = {
+                'ocean': '🌊 Ocean',
+                'freshwater': '🏞️ River/Lake',
+                'mines': '⛏️ Mines',
+                'desert': '🏜️ Desert',
+                'secret_woods': '🌲 Secret Woods'
+            };
+            info.push(locationMap[item.location] || item.location.replace(/_/g, ' '));
+        }
+
+        // Time
+        if (item.time) {
+            const timeMap = {
+                'night': '🌙 6pm-2am',
+                'day': '☀️ 6am-7pm'
+            };
+            info.push(timeMap[item.time] || item.time);
+        }
+
+        // Weather
+        if (item.weather) {
+            info.push(item.weather === 'rain' ? '🌧️ Rain' : item.weather);
+        }
+
+        // Difficulty
+        const difficultyStars = '⭐'.repeat(item.difficulty);
+        info.push(difficultyStars);
+
+        if (info.length > 0) {
+            line += `\n        ${info.join(' • ')}`;
+        }
+
+        line += '\n';
+        return line;
     }
 
     resetProgress() {
