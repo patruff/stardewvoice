@@ -43,7 +43,7 @@ body {
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--shadow);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-align: center;
 }
 
@@ -57,6 +57,99 @@ body {
     font-size: 0.95rem;
     opacity: 0.95;
     font-weight: 400;
+}
+
+/* Season Selector */
+.season-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.season-btn {
+    background: var(--white);
+    color: var(--text-dark);
+    border: 2px solid #C8E6C9;
+    border-radius: 8px;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.season-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+.season-btn.active {
+    background: var(--primary-green);
+    color: var(--white);
+    border-color: var(--dark-green);
+    box-shadow: 0 4px 8px var(--shadow-hover);
+}
+
+/* Settings Bar */
+.settings-bar {
+    background: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+    width: 2.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    appearance: none;
+    background: #ccc;
+    border-radius: 1rem;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.toggle-label input[type="checkbox"]:checked {
+    background: var(--primary-green);
+}
+
+.toggle-label input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: white;
+    top: 0.15rem;
+    left: 0.15rem;
+    transition: left 0.2s;
+}
+
+.toggle-label input[type="checkbox"]:checked::before {
+    left: 1.15rem;
+}
+
+.toggle-text {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.toggle-hint {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-style: italic;
 }
 
 /* Main Content */
@@ -79,9 +172,11 @@ body {
 }
 
 .output-text {
-    line-height: 1.6;
+    line-height: 1.7;
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.95rem;
 }
 
 .welcome-message h2 {
@@ -95,7 +190,8 @@ body {
     color: var(--text-dark);
 }
 
-.welcome-message ul {
+.welcome-message ul,
+.welcome-message ol {
     margin-left: 1.5rem;
     margin-bottom: 1rem;
 }

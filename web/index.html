@@ -21,6 +21,23 @@
             <p class="subtitle">Track your Community Center bundles with voice!</p>
         </header>
 
+        <!-- Season Selector -->
+        <div class="season-selector">
+            <button class="season-btn active" data-season="spring">🌱 Spring</button>
+            <button class="season-btn" data-season="summer">☀️ Summer</button>
+            <button class="season-btn" data-season="fall">🍂 Fall</button>
+            <button class="season-btn" data-season="winter">❄️ Winter</button>
+        </div>
+
+        <!-- Settings -->
+        <div class="settings-bar">
+            <label class="toggle-label">
+                <input type="checkbox" id="strictMode" checked>
+                <span class="toggle-text">Strict Seasonal Mode</span>
+                <span class="toggle-hint">(Hide out-of-season items)</span>
+            </label>
+        </div>
+
         <!-- Main Content -->
         <main class="main-content">
             <!-- Output Display -->
@@ -28,19 +45,20 @@
                 <div id="output" class="output-text">
                     <div class="welcome-message">
                         <h2>Welcome to Stardew Voice Tracker!</h2>
+                        <p><strong>Quick Start:</strong></p>
+                        <ol>
+                            <li>Select your current season above</li>
+                            <li>Tap the microphone below</li>
+                            <li>Say "Caught [item]" or "What's left?"</li>
+                        </ol>
                         <p><strong>Voice Commands:</strong></p>
                         <ul>
-                            <li>"Caught [item name]" - Add items to bundles</li>
-                            <li>"What do I need for [season]?" - See seasonal items</li>
-                            <li>"Show progress" - View bundle completion</li>
-                            <li>"Reset" - Clear all progress</li>
+                            <li>"Caught the Catfish" - Add items</li>
+                            <li>"What's left?" - See needed items</li>
+                            <li>"What do I need?" - See needed items</li>
+                            <li>"Show progress" - View completion</li>
                         </ul>
-                        <p><strong>Examples:</strong></p>
-                        <ul>
-                            <li>"Caught the Catfish"</li>
-                            <li>"What do I need for Spring?"</li>
-                        </ul>
-                        <p class="tap-hint">👇 Tap the microphone to start!</p>
+                        <p class="tap-hint">👆 Select a season, then tap mic! 🎤</p>
                     </div>
                 </div>
             </div>

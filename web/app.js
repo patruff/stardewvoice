@@ -7,6 +7,8 @@ class BundleTracker {
         this.progress = this.loadProgress();
         this.recognition = null;
         this.isListening = false;
+        this.currentSeason = 'spring';
+        this.strictMode = true;
 
         this.init();
     }
@@ -108,6 +110,23 @@ class BundleTracker {
     }
 
     setupUI() {
+        // Season selector buttons
+        document.querySelectorAll('.season-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                e.target.classList.add('active');
+                // Update current season
+                this.currentSeason = e.target.dataset.season;
+            });
+        });
+
+        // Strict mode toggle
+        document.getElementById('strictMode').addEventListener('change', (e) => {
+            this.strictMode = e.target.checked;
+        });
+
         // Voice button
         document.getElementById('voiceBtn').addEventListener('click', () => {
             this.toggleVoiceRecognition();
@@ -175,7 +194,7 @@ class BundleTracker {
 
         if (lowerCommand.includes('caught')) {
             this.handleCaughtItem(lowerCommand);
-        } else if (lowerCommand.includes('need') || lowerCommand.includes('anything')) {
+        } else if (lowerCommand.includes('need') || lowerCommand.includes('anything') || lowerCommand.includes('left')) {
             this.handleWhatNeeded(lowerCommand);
         } else if (lowerCommand.includes('progress')) {
             this.showProgress();
@@ -185,7 +204,7 @@ class BundleTracker {
             this.showError(
                 "Command not recognized. Try:\n" +
                 "• 'Caught [item name]'\n" +
-                "• 'What do I need for [season]?'\n" +
+                "• 'What's left?' or 'What do I need?'\n" +
                 "• 'Show progress'"
             );
         }
@@ -208,11 +227,11 @@ class BundleTracker {
     }
 
     handleWhatNeeded(command) {
-        const season = this.extractSeason(command);
+        // Try to extract season from command, otherwise use selected season
+        let season = this.extractSeason(command);
 
         if (!season) {
-            this.showError('Please specify a season (Spring, Summer, Fall, or Winter)');
-            return;
+            season = this.currentSeason;
         }
 
         const result = this.getNeededItems(season);
@@ -301,8 +320,10 @@ class BundleTracker {
 
     getNeededItems(season) {
         const normalizedSeason = season.toLowerCase();
-        const neededItems = [];
+        const seasonalItems = {};
+        const outOfSeasonItems = {};
 
+        // Collect all needed items
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
             for (const [bundleKey, bundle] of Object.entries(category.bundles)) {
                 const bundleId = `${categoryKey}.${bundleKey}`;
@@ -318,49 +339,124 @@ class BundleTracker {
                         // Skip already collected items
                         if (collectedInBundle.includes(item.name)) continue;
 
-                        // Check if available in current season
-                        if (item.seasons.map(s => s.toLowerCase()).includes(normalizedSeason)) {
-                            neededItems.push({ item, bundleName: bundle.name });
+                        const isInSeason = item.seasons.map(s => s.toLowerCase()).includes(normalizedSeason);
+                        const itemData = { item, bundleName: bundle.name };
+
+                        if (isInSeason) {
+                            // Group by bundle name
+                            if (!seasonalItems[bundle.name]) {
+                                seasonalItems[bundle.name] = [];
+                            }
+                            seasonalItems[bundle.name].push(itemData);
+                        } else if (!this.strictMode) {
+                            // Out of season items
+                            if (!outOfSeasonItems[bundle.name]) {
+                                outOfSeasonItems[bundle.name] = [];
+                            }
+                            outOfSeasonItems[bundle.name].push(itemData);
                         }
                     }
                 }
             }
         }
 
-        if (neededItems.length === 0) {
-            return `Great job! You don't need anything else available in ${season}.`;
+        // Build result string
+        let result = `📋 Items for ${season.charAt(0).toUpperCase() + season.slice(1)}:\n\n`;
+
+        // Show seasonal items grouped by bundle
+        const seasonalBundles = Object.keys(seasonalItems).sort();
+
+        if (seasonalBundles.length === 0) {
+            result += `✅ Great! No items needed this season.\n`;
+        } else {
+            for (const bundleName of seasonalBundles) {
+                result += `━━━ ${bundleName} ━━━\n`;
+
+                // Sort by difficulty within bundle
+                const items = seasonalItems[bundleName].sort((a, b) => a.item.difficulty - b.item.difficulty);
+
+                for (const { item } of items) {
+                    result += this.formatItem(item);
+                }
+                result += '\n';
+            }
         }
 
-        // Sort by difficulty
-        neededItems.sort((a, b) => a.item.difficulty - b.item.difficulty);
+        // Show out of season items if strict mode is off
+        if (!this.strictMode && Object.keys(outOfSeasonItems).length > 0) {
+            result += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+            result += `📅 Items Needed (Not This Season):\n\n`;
 
-        let result = `Items needed in ${season}:\n\n`;
-        let currentDifficulty = -1;
+            const outOfSeasonBundles = Object.keys(outOfSeasonItems).sort();
+            for (const bundleName of outOfSeasonBundles) {
+                result += `${bundleName}:\n`;
 
-        for (const { item, bundleName } of neededItems) {
-            if (item.difficulty !== currentDifficulty) {
-                currentDifficulty = item.difficulty;
-                const difficultyLabel = ['⭐ Easy', '⭐⭐ Medium', '⭐⭐⭐ Hard', '⭐⭐⭐⭐ Very Hard'][currentDifficulty - 1];
-                result += `\n${difficultyLabel}:\n`;
+                for (const { item } of outOfSeasonItems[bundleName]) {
+                    const availableSeasons = item.seasons.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ');
+                    result += `  • ${item.name}`;
+                    if (item.quality === 'gold') result += ' (Gold)';
+                    if (item.quantity > 1) result += ` x${item.quantity}`;
+                    result += ` - Available: ${availableSeasons}\n`;
+                }
             }
-
-            result += `• ${item.name}`;
-            if (item.quality === 'gold') result += ' (Gold Quality)';
-            if (item.quantity > 1) result += ` x${item.quantity}`;
-            result += ` - ${bundleName}`;
-
-            // Add helpful hints
-            const hints = [];
-            if (item.weather) hints.push(item.weather);
-            if (item.time) hints.push(item.time);
-            if (item.location) hints.push(item.location.replace(/_/g, ' '));
-            if (hints.length > 0) {
-                result += ` (${hints.join(', ')})`;
-            }
-            result += '\n';
         }
 
         return result;
+    }
+
+    formatItem(item) {
+        let line = `  • `;
+
+        // Item name with quantity
+        if (item.quantity > 1) {
+            line += `${item.quantity}x `;
+        }
+        line += item.name;
+
+        // Quality
+        if (item.quality === 'gold') {
+            line += ' ⭐ (Gold Quality)';
+        }
+
+        // Build restrictions
+        const restrictions = [];
+
+        // Location
+        if (item.location) {
+            const locationMap = {
+                'ocean': 'Ocean',
+                'freshwater': 'River/Lake',
+                'mines': 'Mines',
+                'desert': 'Desert',
+                'secret_woods': 'Secret Woods'
+            };
+            restrictions.push(locationMap[item.location] || item.location.replace(/_/g, ' '));
+        }
+
+        // Time
+        if (item.time) {
+            const timeMap = {
+                'night': '6pm-2am',
+                'day': '6am-7pm'
+            };
+            restrictions.push(timeMap[item.time] || item.time);
+        }
+
+        // Weather
+        if (item.weather) {
+            restrictions.push(item.weather === 'rain' ? 'Rainy' : item.weather);
+        }
+
+        // Difficulty
+        const difficultyStars = '⭐'.repeat(item.difficulty);
+        restrictions.push(difficultyStars);
+
+        if (restrictions.length > 0) {
+            line += `\n      ${restrictions.join(' • ')}`;
+        }
+
+        line += '\n';
+        return line;
     }
 
     showProgress() {
