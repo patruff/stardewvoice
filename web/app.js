@@ -442,7 +442,8 @@ class BundleTracker {
         if (item.time) {
             const timeMap = {
                 'night': '6pm-2am',
-                'day': '6am-7pm'
+                'day': '6am-7pm',
+                'evening': '4pm-2am'
             };
             restrictions.push(timeMap[item.time] || item.time);
         }
@@ -643,7 +644,8 @@ class BundleTracker {
         if (item.time) {
             const timeMap = {
                 'night': '6pm-2am',
-                'day': '6am-7pm'
+                'day': '6am-7pm',
+                'evening': '4pm-2am'
             };
             info.push(timeMap[item.time] || item.time);
         }

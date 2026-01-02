@@ -59,7 +59,7 @@
           "name": "Artisan Bundle",
           "required": 6,
           "items": [
-            {"name": "Truffle Oil", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 4},
+            {"name": "Truffle Oil", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 4},
             {"name": "Cloth", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
             {"name": "Goat Cheese", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
             {"name": "Cheese", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
@@ -82,9 +82,9 @@
           "name": "River Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1},
-            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain"},
-            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain"},
+            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1, "time": "day", "location": "freshwater"},
+            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
+            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
             {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3}
           ]
         },
@@ -92,9 +92,9 @@
           "name": "Lake Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Largemouth Bass", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Carp", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 1},
-            {"name": "Bullhead", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1},
+            {"name": "Largemouth Bass", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "day", "location": "freshwater"},
+            {"name": "Carp", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
+            {"name": "Bullhead", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
             {"name": "Sturgeon", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 4}
           ]
         },
@@ -102,7 +102,7 @@
           "name": "Ocean Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Sardine", "quality": "normal", "seasons": ["spring", "fall", "winter"], "difficulty": 1},
+            {"name": "Sardine", "quality": "normal", "seasons": ["spring", "fall", "winter"], "difficulty": 1, "time": "day", "location": "ocean"},
             {"name": "Tuna", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 3},
             {"name": "Red Snapper", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "weather": "rain"},
             {"name": "Tilapia", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2}
@@ -114,7 +114,7 @@
           "items": [
             {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain"},
             {"name": "Bream", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "night"},
-            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "night", "weather": "rain"}
+            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean"}
           ]
         },
         "specialty_fish": {
@@ -256,7 +256,7 @@
           "items": [
             {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
             {"name": "Fiddlehead Fern", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
-            {"name": "Truffle", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 4},
+            {"name": "Truffle", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 4},
             {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
             {"name": "Maki Roll", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
             {"name": "Fried Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1}
