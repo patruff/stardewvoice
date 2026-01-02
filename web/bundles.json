@@ -66,11 +66,11 @@
             {"name": "Honey", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2},
             {"name": "Jelly", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
             {"name": "Apple", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
-            {"name": "Apricot", "quality": "normal", "seasons": ["spring"], "difficulty": 2},
+            {"name": "Apricot", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier"},
             {"name": "Orange", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
             {"name": "Peach", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
             {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
-            {"name": "Cherry", "quality": "normal", "seasons": ["spring"], "difficulty": 2}
+            {"name": "Cherry", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier"}
           ]
         }
       }
@@ -171,7 +171,7 @@
           "name": "Fall Foraging Bundle",
           "required": 4,
           "items": [
-            {"name": "Common Mushroom", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 1},
+            {"name": "Common Mushroom", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Wild Plum", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Hazelnut", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Blackberry", "quality": "normal", "seasons": ["fall"], "difficulty": 1}
@@ -201,7 +201,7 @@
           "required": 5,
           "items": [
             {"name": "Coconut", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "location": "desert"},
-            {"name": "Cactus Fruit", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "desert"},
+            {"name": "Cactus Fruit", "quality": "normal", "seasons": [], "difficulty": 2, "location": "desert", "note": "Requires bus repair"},
             {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines"},
             {"name": "Red Mushroom", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
             {"name": "Purple Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
