@@ -525,7 +525,20 @@ class BundleTracker {
                 if (isComplete) {
                     result += `✅ ${bundle.name} - COMPLETE!\n\n`;
                 } else {
-                    result += `📦 ${bundle.name} (${collectedCount}/${bundle.required})\n`;
+                    // Calculate seasonal progress if in strict mode
+                    if (this.strictMode) {
+                        const seasonalItems = bundle.items.filter(item =>
+                            item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
+                        );
+                        const collectedSeasonalItems = seasonalItems.filter(item =>
+                            collectedInBundle.includes(item.name)
+                        );
+
+                        result += `📦 ${bundle.name}\n`;
+                        result += `    ${this.currentSeason}: ${collectedSeasonalItems.length}/${seasonalItems.length} items | Overall: ${collectedCount}/${bundle.required}\n`;
+                    } else {
+                        result += `📦 ${bundle.name} (${collectedCount}/${bundle.required})\n`;
+                    }
 
                     // Show collected items
                     if (collectedCount > 0) {
