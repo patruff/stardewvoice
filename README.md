@@ -1,6 +1,26 @@
 # Stardew Voice - Bundle Tracker
 
-A voice-enabled Android app for tracking Stardew Valley Community Center bundles.
+A voice-enabled app for tracking Stardew Valley Community Center bundles.
+
+## 🌐 Web App (Recommended for Quick Testing!)
+
+**Live App:** [Your GitHub Pages URL - deploys automatically]
+
+✨ **Instant Testing:**
+- Push code → Auto-deploy → Refresh browser = ~30 seconds!
+- No installation required
+- Works on Android, iOS, and desktop
+- Free Web Speech API (no API key needed)
+
+📱 **Install as PWA:** Add to home screen like a native app!
+
+See [web/README.md](web/README.md) for web app details.
+
+## 📱 Android Native App
+
+Full native Android app with offline support.
+
+See [DEPLOY.md](DEPLOY.md) for Android deployment instructions.
 
 ## Features
 

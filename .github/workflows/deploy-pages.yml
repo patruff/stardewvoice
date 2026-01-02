@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "claude/stardew-voice-bundle-tracker-iJm1q", "main" ]
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'web'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Add deployment summary
+        run: |
+          echo "🚀 **Web App Deployed!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Live URL:** ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**What's new in this deploy:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Voice-enabled bundle tracking" >> $GITHUB_STEP_SUMMARY
+          echo "- Progressive Web App (installable)" >> $GITHUB_STEP_SUMMARY
+          echo "- Offline support" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**How to test:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Open the URL on your phone" >> $GITHUB_STEP_SUMMARY
+          echo "2. Tap 'Add to Home Screen' to install" >> $GITHUB_STEP_SUMMARY
+          echo "3. Grant microphone permissions" >> $GITHUB_STEP_SUMMARY
+          echo "4. Start tracking bundles with voice!" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="description" content="Voice-enabled Stardew Valley bundle tracker">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Stardew Voice - Bundle Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>🌾 Stardew Voice Tracker</h1>
+            <p class="subtitle">Track your Community Center bundles with voice!</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Output Display -->
+            <div class="output-card">
+                <div id="output" class="output-text">
+                    <div class="welcome-message">
+                        <h2>Welcome to Stardew Voice Tracker!</h2>
+                        <p><strong>Voice Commands:</strong></p>
+                        <ul>
+                            <li>"Caught [item name]" - Add items to bundles</li>
+                            <li>"What do I need for [season]?" - See seasonal items</li>
+                            <li>"Show progress" - View bundle completion</li>
+                            <li>"Reset" - Clear all progress</li>
+                        </ul>
+                        <p><strong>Examples:</strong></p>
+                        <ul>
+                            <li>"Caught the Catfish"</li>
+                            <li>"What do I need for Spring?"</li>
+                        </ul>
+                        <p class="tap-hint">👇 Tap the microphone to start!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="voiceBtn" class="btn btn-primary btn-voice">
+                    <span class="btn-icon">🎤</span>
+                    <span class="btn-text">Tap to Speak</span>
+                </button>
+
+                <div class="secondary-controls">
+                    <button id="progressBtn" class="btn btn-secondary">
+                        📊 Progress
+                    </button>
+                    <button id="resetBtn" class="btn btn-danger">
+                        🔄 Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Indicator -->
+            <div id="status" class="status-indicator"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Unofficial fan-made app • Stardew Valley by ConcernedApe</p>
+            <p class="install-prompt" id="installPrompt" style="display: none;">
+                <button id="installBtn" class="btn-install">📱 Install App</button>
+            </p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

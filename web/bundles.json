@@ -1,0 +1,342 @@
+{
+  "bundles": {
+    "pantry": {
+      "name": "Pantry",
+      "bundles": {
+        "spring_crops": {
+          "name": "Spring Crops Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Parsnip", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Green Bean", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Cauliflower", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Potato", "quality": "normal", "seasons": ["spring"], "difficulty": 1}
+          ]
+        },
+        "summer_crops": {
+          "name": "Summer Crops Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Tomato", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Hot Pepper", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Blueberry", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Melon", "quality": "normal", "seasons": ["summer"], "difficulty": 1}
+          ]
+        },
+        "fall_crops": {
+          "name": "Fall Crops Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Corn", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
+            {"name": "Eggplant", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
+            {"name": "Pumpkin", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
+            {"name": "Yam", "quality": "normal", "seasons": ["fall"], "difficulty": 1}
+          ]
+        },
+        "quality_crops": {
+          "name": "Quality Crops Bundle",
+          "required": 3,
+          "items": [
+            {"name": "Parsnip", "quality": "gold", "seasons": ["spring"], "difficulty": 3},
+            {"name": "Melon", "quality": "gold", "seasons": ["summer"], "difficulty": 3},
+            {"name": "Pumpkin", "quality": "gold", "seasons": ["fall"], "difficulty": 3},
+            {"name": "Corn", "quality": "gold", "seasons": ["summer", "fall"], "difficulty": 3}
+          ]
+        },
+        "animal": {
+          "name": "Animal Bundle",
+          "required": 5,
+          "items": [
+            {"name": "Large Milk", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Large Egg (Brown)", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Large Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Large Goat Milk", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Wool", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Duck Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2}
+          ]
+        },
+        "artisan": {
+          "name": "Artisan Bundle",
+          "required": 6,
+          "items": [
+            {"name": "Truffle Oil", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 4},
+            {"name": "Cloth", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Goat Cheese", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Cheese", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Honey", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2},
+            {"name": "Jelly", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Apple", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
+            {"name": "Apricot", "quality": "normal", "seasons": ["spring"], "difficulty": 2},
+            {"name": "Orange", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
+            {"name": "Peach", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
+            {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
+            {"name": "Cherry", "quality": "normal", "seasons": ["spring"], "difficulty": 2}
+          ]
+        }
+      }
+    },
+    "fish_tank": {
+      "name": "Fish Tank",
+      "bundles": {
+        "river_fish": {
+          "name": "River Fish Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1},
+            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain"},
+            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain"},
+            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3}
+          ]
+        },
+        "lake_fish": {
+          "name": "Lake Fish Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Largemouth Bass", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Carp", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 1},
+            {"name": "Bullhead", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1},
+            {"name": "Sturgeon", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 4}
+          ]
+        },
+        "ocean_fish": {
+          "name": "Ocean Fish Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Sardine", "quality": "normal", "seasons": ["spring", "fall", "winter"], "difficulty": 1},
+            {"name": "Tuna", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 3},
+            {"name": "Red Snapper", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "weather": "rain"},
+            {"name": "Tilapia", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2}
+          ]
+        },
+        "night_fishing": {
+          "name": "Night Fishing Bundle",
+          "required": 3,
+          "items": [
+            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain"},
+            {"name": "Bream", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "night"},
+            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "night", "weather": "rain"}
+          ]
+        },
+        "specialty_fish": {
+          "name": "Specialty Fish Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "day"},
+            {"name": "Ghostfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
+            {"name": "Sandfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "desert"},
+            {"name": "Woodskip", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "secret_woods"}
+          ]
+        },
+        "crab_pot": {
+          "name": "Crab Pot Bundle",
+          "required": 5,
+          "items": [
+            {"name": "Lobster", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "ocean"},
+            {"name": "Crayfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
+            {"name": "Crab", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "ocean"},
+            {"name": "Cockle", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "ocean"},
+            {"name": "Mussel", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "ocean"},
+            {"name": "Shrimp", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "ocean"},
+            {"name": "Snail", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
+            {"name": "Periwinkle", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
+            {"name": "Oyster", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "ocean"},
+            {"name": "Clam", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "ocean"}
+          ]
+        }
+      }
+    },
+    "crafts_room": {
+      "name": "Crafts Room",
+      "bundles": {
+        "spring_foraging": {
+          "name": "Spring Foraging Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Wild Horseradish", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Daffodil", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Leek", "quality": "normal", "seasons": ["spring"], "difficulty": 1},
+            {"name": "Dandelion", "quality": "normal", "seasons": ["spring"], "difficulty": 1}
+          ]
+        },
+        "summer_foraging": {
+          "name": "Summer Foraging Bundle",
+          "required": 3,
+          "items": [
+            {"name": "Grape", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
+            {"name": "Spice Berry", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Sweet Pea", "quality": "normal", "seasons": ["summer"], "difficulty": 1}
+          ]
+        },
+        "fall_foraging": {
+          "name": "Fall Foraging Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Common Mushroom", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 1},
+            {"name": "Wild Plum", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
+            {"name": "Hazelnut", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
+            {"name": "Blackberry", "quality": "normal", "seasons": ["fall"], "difficulty": 1}
+          ]
+        },
+        "winter_foraging": {
+          "name": "Winter Foraging Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Winter Root", "quality": "normal", "seasons": ["winter"], "difficulty": 1},
+            {"name": "Crystal Fruit", "quality": "normal", "seasons": ["winter"], "difficulty": 1},
+            {"name": "Snow Yam", "quality": "normal", "seasons": ["winter"], "difficulty": 1},
+            {"name": "Crocus", "quality": "normal", "seasons": ["winter"], "difficulty": 1}
+          ]
+        },
+        "construction": {
+          "name": "Construction Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Wood", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 99},
+            {"name": "Stone", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 99},
+            {"name": "Hardwood", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "quantity": 10}
+          ]
+        },
+        "exotic_foraging": {
+          "name": "Exotic Foraging Bundle",
+          "required": 5,
+          "items": [
+            {"name": "Coconut", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "location": "desert"},
+            {"name": "Cactus Fruit", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "desert"},
+            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines"},
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
+            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Pine Tar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Morel", "quality": "normal", "seasons": ["spring"], "difficulty": 2}
+          ]
+        }
+      }
+    },
+    "boiler_room": {
+      "name": "Boiler Room",
+      "bundles": {
+        "blacksmith": {
+          "name": "Blacksmith's Bundle",
+          "required": 3,
+          "items": [
+            {"name": "Copper Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1},
+            {"name": "Iron Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Gold Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3}
+          ]
+        },
+        "geologist": {
+          "name": "Geologist's Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Quartz", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1},
+            {"name": "Earth Crystal", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Frozen Tear", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Fire Quartz", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2}
+          ]
+        },
+        "adventurer": {
+          "name": "Adventurer's Bundle",
+          "required": 2,
+          "items": [
+            {"name": "Slime", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 99},
+            {"name": "Bat Wing", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "quantity": 10},
+            {"name": "Solar Essence", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Void Essence", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3}
+          ]
+        }
+      }
+    },
+    "bulletin_board": {
+      "name": "Bulletin Board",
+      "bundles": {
+        "chef": {
+          "name": "Chef's Bundle",
+          "required": 6,
+          "items": [
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Fiddlehead Fern", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
+            {"name": "Truffle", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 4},
+            {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Maki Roll", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Fried Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1}
+          ]
+        },
+        "dye": {
+          "name": "Dye Bundle",
+          "required": 6,
+          "items": [
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
+            {"name": "Sea Urchin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Sunflower", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
+            {"name": "Duck Feather", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Aquamarine", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Red Cabbage", "quality": "normal", "seasons": ["summer"], "difficulty": 2}
+          ]
+        },
+        "field_research": {
+          "name": "Field Research Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
+            {"name": "Nautilus Shell", "quality": "normal", "seasons": ["winter"], "difficulty": 2},
+            {"name": "Chub", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1},
+            {"name": "Frozen Geode", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2}
+          ]
+        },
+        "fodder": {
+          "name": "Fodder Bundle",
+          "required": 3,
+          "items": [
+            {"name": "Wheat", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1, "quantity": 10},
+            {"name": "Hay", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 10},
+            {"name": "Apple", "quality": "normal", "seasons": ["fall"], "difficulty": 2, "quantity": 3}
+          ]
+        },
+        "enchanter": {
+          "name": "Enchanter's Bundle",
+          "required": 4,
+          "items": [
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Wine", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Rabbit's Foot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 4},
+            {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2}
+          ]
+        }
+      }
+    },
+    "vault": {
+      "name": "Vault",
+      "bundles": {
+        "2500": {
+          "name": "2,500g Bundle",
+          "required": 1,
+          "items": [
+            {"name": "Gold", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 2500}
+          ]
+        },
+        "5000": {
+          "name": "5,000g Bundle",
+          "required": 1,
+          "items": [
+            {"name": "Gold", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "quantity": 5000}
+          ]
+        },
+        "10000": {
+          "name": "10,000g Bundle",
+          "required": 1,
+          "items": [
+            {"name": "Gold", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "quantity": 10000}
+          ]
+        },
+        "25000": {
+          "name": "25,000g Bundle",
+          "required": 1,
+          "items": [
+            {"name": "Gold", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 4, "quantity": 25000}
+          ]
+        }
+      }
+    }
+  }
+}
