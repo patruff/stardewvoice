@@ -485,11 +485,22 @@ class BundleTracker {
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
                 // Check if bundle has UNCOLLECTED items for current season
+                // In strict mode, also exclude year-round items (available all 4 seasons)
                 const hasSeasonalItemsNeeded = bundle.items.some(item => {
                     // Skip already collected items
                     if (collectedInBundle.includes(item.name)) return false;
-                    // Check if this uncollected item is available in current season
-                    return item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase());
+
+                    // Check if item is available in current season
+                    const availableNow = item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase());
+                    if (!availableNow) return false;
+
+                    // In strict mode, exclude year-round items (available all 4 seasons)
+                    if (this.strictMode) {
+                        const isYearRound = item.seasons.length === 4;
+                        return !isYearRound;
+                    }
+
+                    return true;
                 });
 
                 // Skip bundle if strict mode and no seasonal items needed (unless completed)
@@ -523,7 +534,15 @@ class BundleTracker {
 
                 // Bundle header
                 if (isComplete) {
-                    result += `✅ ${bundle.name} - COMPLETE!\n\n`;
+                    result += `✅ ${bundle.name} - COMPLETE!\n`;
+                    // Show what was collected in completed bundle
+                    if (collectedInBundle.length > 0) {
+                        result += `  Collected:\n`;
+                        for (const itemName of collectedInBundle) {
+                            result += `    ✓ ${itemName}\n`;
+                        }
+                    }
+                    result += '\n';
                 } else {
                     // Calculate seasonal progress if in strict mode
                     if (this.strictMode) {
@@ -602,30 +621,20 @@ class BundleTracker {
 
         // Quality
         if (item.quality === 'gold') {
-            line += ' ⭐ (Gold)';
+            line += ' (Gold)';
         }
 
-        // Build info line
+        // Build concise info on same line
         const info = [];
-
-        // Seasons
-        const seasonIcons = {
-            'spring': '🌱',
-            'summer': '☀️',
-            'fall': '🍂',
-            'winter': '❄️'
-        };
-        const seasonStr = item.seasons.map(s => seasonIcons[s.toLowerCase()] || s).join('');
-        info.push(seasonStr);
 
         // Location
         if (item.location) {
             const locationMap = {
-                'ocean': '🌊 Ocean',
-                'freshwater': '🏞️ River/Lake',
-                'mines': '⛏️ Mines',
-                'desert': '🏜️ Desert',
-                'secret_woods': '🌲 Secret Woods'
+                'ocean': 'Ocean',
+                'freshwater': 'River/Lake',
+                'mines': 'Mines',
+                'desert': 'Desert',
+                'secret_woods': 'Secret Woods'
             };
             info.push(locationMap[item.location] || item.location.replace(/_/g, ' '));
         }
@@ -633,15 +642,15 @@ class BundleTracker {
         // Time
         if (item.time) {
             const timeMap = {
-                'night': '🌙 6pm-2am',
-                'day': '☀️ 6am-7pm'
+                'night': '6pm-2am',
+                'day': '6am-7pm'
             };
             info.push(timeMap[item.time] || item.time);
         }
 
         // Weather
         if (item.weather) {
-            info.push(item.weather === 'rain' ? '🌧️ Rain' : item.weather);
+            info.push(item.weather === 'rain' ? 'Rain' : item.weather);
         }
 
         // Difficulty
@@ -649,7 +658,7 @@ class BundleTracker {
         info.push(difficultyStars);
 
         if (info.length > 0) {
-            line += `\n        ${info.join(' • ')}`;
+            line += ` - ${info.join(', ')}`;
         }
 
         line += '\n';
