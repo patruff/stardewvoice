@@ -443,14 +443,19 @@ class BundleTracker {
             const timeMap = {
                 'night': '6pm-2am',
                 'day': '6am-7pm',
-                'evening': '4pm-2am'
+                'evening': '4pm-2am',
+                'noon': '12pm-4pm'
             };
             restrictions.push(timeMap[item.time] || item.time);
         }
 
         // Weather
         if (item.weather) {
-            restrictions.push(item.weather === 'rain' ? 'Rainy' : item.weather);
+            const weatherMap = {
+                'rain': 'Rainy',
+                'sunny': 'Sunny'
+            };
+            restrictions.push(weatherMap[item.weather] || item.weather);
         }
 
         // Difficulty
@@ -645,14 +650,19 @@ class BundleTracker {
             const timeMap = {
                 'night': '6pm-2am',
                 'day': '6am-7pm',
-                'evening': '4pm-2am'
+                'evening': '4pm-2am',
+                'noon': '12pm-4pm'
             };
             info.push(timeMap[item.time] || item.time);
         }
 
         // Weather
         if (item.weather) {
-            info.push(item.weather === 'rain' ? 'Rain' : item.weather);
+            const weatherMap = {
+                'rain': 'Rain',
+                'sunny': 'Sunny'
+            };
+            info.push(weatherMap[item.weather] || item.weather);
         }
 
         // Difficulty
