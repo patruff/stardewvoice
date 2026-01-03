@@ -202,13 +202,13 @@
           "items": [
             {"name": "Coconut", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "location": "desert"},
             {"name": "Cactus Fruit", "quality": "normal", "seasons": [], "difficulty": 2, "location": "desert", "note": "Requires bus repair"},
-            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines"},
-            {"name": "Red Mushroom", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
-            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
-            {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Oak Resin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Pine Tar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Morel", "quality": "normal", "seasons": ["spring"], "difficulty": 2}
+            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines"},
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines"},
+            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Pine Tar", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Morel", "quality": "normal", "seasons": ["spring"], "difficulty": 2, "location": "secret_woods"}
           ]
         }
       }
@@ -254,7 +254,7 @@
           "name": "Chef's Bundle",
           "required": 6,
           "items": [
-            {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
             {"name": "Fiddlehead Fern", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
             {"name": "Truffle", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 4},
             {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
@@ -266,7 +266,7 @@
           "name": "Dye Bundle",
           "required": 6,
           "items": [
-            {"name": "Red Mushroom", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines"},
             {"name": "Sea Urchin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
             {"name": "Sunflower", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
             {"name": "Duck Feather", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
@@ -297,7 +297,7 @@
           "name": "Enchanter's Bundle",
           "required": 4,
           "items": [
-            {"name": "Oak Resin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
             {"name": "Wine", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
             {"name": "Rabbit's Foot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 4},
             {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2}
