@@ -85,7 +85,8 @@
             {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1, "time": "day", "location": "freshwater"},
             {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
             {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
-            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3}
+            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "location": "freshwater"},
+            {"name": "Rainbow Trout", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "time": "day", "location": "freshwater", "weather": "sunny"}
           ]
         },
         "lake_fish": {
@@ -95,7 +96,7 @@
             {"name": "Largemouth Bass", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "day", "location": "freshwater"},
             {"name": "Carp", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
             {"name": "Bullhead", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "freshwater"},
-            {"name": "Sturgeon", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 4}
+            {"name": "Sturgeon", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 4, "time": "day", "location": "freshwater"}
           ]
         },
         "ocean_fish": {
@@ -103,16 +104,17 @@
           "required": 4,
           "items": [
             {"name": "Sardine", "quality": "normal", "seasons": ["spring", "fall", "winter"], "difficulty": 1, "time": "day", "location": "ocean"},
-            {"name": "Tuna", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 3},
-            {"name": "Red Snapper", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "weather": "rain"},
-            {"name": "Tilapia", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2}
+            {"name": "Tuna", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 3, "time": "day", "location": "ocean"},
+            {"name": "Red Snapper", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3, "weather": "rain", "location": "ocean"},
+            {"name": "Tilapia", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "time": "day", "location": "ocean"},
+            {"name": "Squid", "quality": "normal", "seasons": ["winter"], "difficulty": 2, "time": "night", "location": "ocean"}
           ]
         },
         "night_fishing": {
           "name": "Night Fishing Bundle",
           "required": 3,
           "items": [
-            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain"},
+            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain", "location": "freshwater"},
             {"name": "Bream", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "night"},
             {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean"}
           ]
@@ -121,7 +123,7 @@
           "name": "Specialty Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "day"},
+            {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "noon", "location": "ocean"},
             {"name": "Ghostfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
             {"name": "Sandfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "desert"},
             {"name": "Woodskip", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "secret_woods"}
