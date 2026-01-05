@@ -565,6 +565,12 @@ body {
     margin-left: 28px;
 }
 
+.strategy-hint {
+    color: var(--stardew-orange);
+    font-style: italic;
+    font-weight: 500;
+}
+
 .difficulty-badge {
     display: inline-block;
     padding: 0.2rem 0.5rem;

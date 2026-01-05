@@ -503,6 +503,7 @@ class BundleTracker {
             html += `<span class="item-name">`;
             html += this.escapeHtml(item.name);
             if (item.quality === 'gold') html += ' ⭐ Gold';
+            if (item.strategy) html += ' 💡';
             html += `</span>`;
             html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
             html += `</div>`;
@@ -519,6 +520,7 @@ class BundleTracker {
             html += `<span class="item-name">`;
             html += this.escapeHtml(item.name);
             if (item.quality === 'gold') html += ' ⭐ Gold';
+            if (item.strategy) html += ' 💡';
             html += `</span>`;
             html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
             html += `</label>`;
@@ -528,6 +530,8 @@ class BundleTracker {
         html += `<div class="item-subtitle">`;
         const subtitle = this.buildSubtitle(item);
         html += subtitle;
+        if (item.strategy && subtitle) html += ' • ';
+        if (item.strategy) html += '<span class="strategy-hint">Click for strategy</span>';
         html += `</div>`;
 
         html += `</div>`; // item-main
