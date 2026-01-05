@@ -442,6 +442,27 @@ body {
     background: var(--dark-green);
 }
 
+/* Bundle List Container */
+.bundle-list {
+    padding: 0;
+}
+
+.season-title {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--stardew-orange);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(61, 36, 16, 0.1);
+}
+
+.empty-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--green-grass);
+    padding: 2rem;
+}
+
 /* Bundle Card Styles */
 .bundle-card {
     background: var(--light-tan);
@@ -472,10 +493,8 @@ body {
 .progress-bar {
     height: 8px;
     background: var(--dark-wood);
-    border-radius: 4px;
     overflow: hidden;
-    margin-top: 0.5rem;
-    border: 1px solid var(--wood-brown);
+    border: none;
 }
 
 .progress-fill {
@@ -489,13 +508,13 @@ body {
     padding: 1rem;
 }
 
+/* Item Row Styles */
 .item-row {
     background: var(--parchment-bg);
     border: 2px solid var(--wood-brown);
     border-radius: 8px;
     margin-bottom: 0.5rem;
     padding: 0.75rem;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -504,44 +523,57 @@ body {
     transform: translateX(4px);
 }
 
+.item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.item-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.item-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
 .item-row.checked {
     opacity: 0.6;
+}
+
+.item-row.checked .item-name {
     text-decoration: line-through;
 }
 
 .item-name {
+    flex: 1;
     font-size: 1.1rem;
     color: var(--text-dark);
     font-weight: 400;
-    margin-bottom: 0.25rem;
 }
 
 .item-subtitle {
     font-size: 0.9rem;
     color: var(--text-light);
-}
-
-.item-details {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 2px dashed var(--text-light);
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    display: none;
-}
-
-.item-details.expanded {
-    display: block;
+    margin-left: 28px;
 }
 
 .difficulty-badge {
     display: inline-block;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 400;
-    margin-left: 0.5rem;
     border: 2px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .difficulty-easy {
@@ -572,6 +604,44 @@ body {
 @keyframes killer-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
+}
+
+/* Out of Season Section */
+.out-of-season-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 3px dashed var(--wood-brown);
+}
+
+.out-of-season-section h3 {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.out-of-season-bundle {
+    margin-bottom: 1rem;
+}
+
+.out-of-season-bundle h4 {
+    color: var(--text-dark);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.out-of-season-bundle ul {
+    list-style: none;
+    padding: 0;
+}
+
+.out-of-season-bundle li {
+    padding: 0.5rem;
+    background: var(--light-tan);
+    border: 2px solid var(--wood-brown);
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+    color: var(--text-light);
 }
 
 /* Responsive Design */

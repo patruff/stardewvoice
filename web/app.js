@@ -240,7 +240,7 @@ class BundleTracker {
         }
 
         const result = this.getNeededItems(season);
-        this.displayText(result);
+        this.displayHTML(result);
     }
 
     extractItemName(command, keyword) {
@@ -345,14 +345,19 @@ class BundleTracker {
                         if (collectedInBundle.includes(item.name)) continue;
 
                         const isInSeason = item.seasons.map(s => s.toLowerCase()).includes(normalizedSeason);
-                        const itemData = { item, bundleName: bundle.name };
+                        const itemData = { item, bundleName: bundle.name, bundleId };
 
                         if (isInSeason) {
                             // Group by bundle name
                             if (!seasonalItems[bundle.name]) {
-                                seasonalItems[bundle.name] = [];
+                                seasonalItems[bundle.name] = {
+                                    items: [],
+                                    bundleId,
+                                    required: bundle.required,
+                                    collected: collectedInBundle.length
+                                };
                             }
-                            seasonalItems[bundle.name].push(itemData);
+                            seasonalItems[bundle.name].items.push(itemData);
                         } else if (!this.strictMode) {
                             // Out of season items
                             if (!outOfSeasonItems[bundle.name]) {
@@ -365,48 +370,154 @@ class BundleTracker {
             }
         }
 
-        // Build result string
-        let result = `📋 Items for ${season.charAt(0).toUpperCase() + season.slice(1)}:\n\n`;
+        // Build HTML result
+        let html = `<div class="bundle-list">`;
+        html += `<h2 class="season-title">📋 Items for ${season.charAt(0).toUpperCase() + season.slice(1)}</h2>`;
 
         // Show seasonal items grouped by bundle
         const seasonalBundles = Object.keys(seasonalItems).sort();
 
         if (seasonalBundles.length === 0) {
-            result += `✅ Great! No items needed this season.\n`;
+            html += `<div class="empty-message">✅ Great! No items needed this season.</div>`;
         } else {
             for (const bundleName of seasonalBundles) {
-                result += `━━━ ${bundleName} ━━━\n`;
+                const bundleData = seasonalItems[bundleName];
+                const progressPercent = (bundleData.collected / bundleData.required) * 100;
 
-                // Sort by difficulty within bundle
-                const items = seasonalItems[bundleName].sort((a, b) => a.item.difficulty - b.item.difficulty);
+                // Sort items by difficulty (Run Killer > Hard > Medium > Easy)
+                const items = bundleData.items.sort((a, b) => b.item.difficulty - a.item.difficulty);
 
-                for (const { item } of items) {
-                    result += this.formatItem(item);
+                html += `<div class="bundle-card">`;
+                html += `<div class="bundle-header">`;
+                html += `<span>${bundleName}</span>`;
+                html += `<span class="bundle-progress">${bundleData.collected}/${bundleData.required}</span>`;
+                html += `</div>`;
+                html += `<div class="progress-bar">`;
+                html += `<div class="progress-fill" style="width: ${progressPercent}%"></div>`;
+                html += `</div>`;
+                html += `<div class="bundle-items">`;
+
+                for (const { item, bundleId } of items) {
+                    html += this.formatItemHTML(item, bundleId);
                 }
-                result += '\n';
+
+                html += `</div></div>`;
             }
         }
 
         // Show out of season items if strict mode is off
         if (!this.strictMode && Object.keys(outOfSeasonItems).length > 0) {
-            result += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
-            result += `📅 Items Needed (Not This Season):\n\n`;
+            html += `<div class="out-of-season-section">`;
+            html += `<h3>📅 Items Needed (Not This Season)</h3>`;
 
             const outOfSeasonBundles = Object.keys(outOfSeasonItems).sort();
             for (const bundleName of outOfSeasonBundles) {
-                result += `${bundleName}:\n`;
+                html += `<div class="out-of-season-bundle">`;
+                html += `<h4>${bundleName}</h4>`;
+                html += `<ul>`;
 
                 for (const { item } of outOfSeasonItems[bundleName]) {
                     const availableSeasons = item.seasons.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ');
-                    result += `  • ${item.name}`;
-                    if (item.quality === 'gold') result += ' (Gold)';
-                    if (item.quantity > 1) result += ` x${item.quantity}`;
-                    result += ` - Available: ${availableSeasons}\n`;
+                    html += `<li>`;
+                    html += `${item.name}`;
+                    if (item.quality === 'gold') html += ' (Gold)';
+                    if (item.quantity > 1) html += ` x${item.quantity}`;
+                    html += ` - Available: ${availableSeasons}`;
+                    html += `</li>`;
                 }
+
+                html += `</ul></div>`;
             }
+
+            html += `</div>`;
         }
 
-        return result;
+        html += `</div>`;
+        return html;
+    }
+
+    formatItemHTML(item, bundleId) {
+        const difficultyClass = this.getDifficultyClass(item.difficulty);
+        const difficultyLabel = this.getDifficultyLabel(item.difficulty);
+
+        let html = `<div class="item-row" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
+        html += `<div class="item-main">`;
+
+        // Checkbox and item name
+        html += `<label class="item-checkbox">`;
+        html += `<input type="checkbox" data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
+        html += `<span class="item-name">`;
+        if (item.quantity > 1) html += `${item.quantity}x `;
+        html += this.escapeHtml(item.name);
+        if (item.quality === 'gold') html += ' ⭐ Gold';
+        html += `</span>`;
+        html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
+        html += `</label>`;
+
+        // Item subtitle (quick info)
+        html += `<div class="item-subtitle">`;
+        const subtitle = this.buildSubtitle(item);
+        html += subtitle;
+        html += `</div>`;
+
+        html += `</div>`; // item-main
+        html += `</div>`; // item-row
+
+        return html;
+    }
+
+    buildSubtitle(item) {
+        const parts = [];
+
+        // Location
+        if (item.location) {
+            const locationMap = {
+                'ocean': 'Ocean',
+                'freshwater': 'River/Lake',
+                'mines': 'Mines',
+                'desert': 'Desert',
+                'secret_woods': 'Secret Woods'
+            };
+            parts.push(locationMap[item.location] || item.location.replace(/_/g, ' '));
+        }
+
+        // Time
+        if (item.time) {
+            const timeMap = {
+                'night': '6pm-2am',
+                'day': '6am-7pm',
+                'evening': '4pm-2am',
+                'noon': '12pm-4pm'
+            };
+            parts.push(timeMap[item.time] || item.time);
+        }
+
+        // Weather
+        if (item.weather) {
+            const weatherMap = {
+                'rain': 'Rain',
+                'sunny': 'Sunny'
+            };
+            parts.push(weatherMap[item.weather] || item.weather);
+        }
+
+        return parts.join(' • ');
+    }
+
+    getDifficultyClass(difficulty) {
+        if (difficulty === 1) return 'difficulty-easy';
+        if (difficulty === 2) return 'difficulty-medium';
+        if (difficulty === 3) return 'difficulty-hard';
+        if (difficulty === 4) return 'difficulty-killer';
+        return 'difficulty-medium';
+    }
+
+    getDifficultyLabel(difficulty) {
+        if (difficulty === 1) return '🟢 Easy';
+        if (difficulty === 2) return '🟡 Medium';
+        if (difficulty === 3) return '🔴 Hard';
+        if (difficulty === 4) return '☠️ Run Killer';
+        return 'Medium';
     }
 
     formatItem(item) {
@@ -693,6 +804,32 @@ class BundleTracker {
         const output = document.getElementById('output');
         output.innerHTML = `<pre class="output-text">${this.escapeHtml(text)}</pre>`;
         output.scrollTop = 0;
+    }
+
+    displayHTML(html) {
+        const output = document.getElementById('output');
+        output.innerHTML = html;
+        output.scrollTop = 0;
+
+        // Add checkbox event listeners
+        const checkboxes = output.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const itemName = e.target.dataset.item;
+                const bundleId = e.target.dataset.bundle;
+
+                if (e.target.checked) {
+                    // Add item
+                    const result = this.addItem(itemName);
+                    this.updateStatus(result, 'success');
+
+                    // Re-render to update progress
+                    setTimeout(() => {
+                        this.handleWhatNeeded();
+                    }, 500);
+                }
+            });
+        });
     }
 
     updateStatus(message, type) {
