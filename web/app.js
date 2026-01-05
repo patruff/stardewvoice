@@ -285,16 +285,44 @@ class BundleTracker {
         // Find which bundle this item belongs to
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
             for (const [bundleKey, bundle] of Object.entries(category.bundles)) {
-                const matchingItem = bundle.items.find(item =>
-                    item.name.toLowerCase() === normalizedName
-                );
+                const matchingItem = bundle.items.find(item => {
+                    const itemBaseName = item.name.toLowerCase();
+
+                    // Direct name match
+                    if (itemBaseName === normalizedName) return true;
+
+                    // Match with quality prefix (e.g., "gold parsnip" matches item "Parsnip" with quality "gold")
+                    if (item.quality === 'gold') {
+                        const goldVariants = [
+                            `gold ${itemBaseName}`,
+                            `gold quality ${itemBaseName}`,
+                            `${itemBaseName} gold`
+                        ];
+                        if (goldVariants.some(variant => variant === normalizedName)) return true;
+                    }
+
+                    // Plural handling (e.g., "parsnips" matches "parsnip")
+                    if (normalizedName === itemBaseName + 's' || normalizedName + 's' === itemBaseName) return true;
+                    if (item.quality === 'gold' && (normalizedName === `gold ${itemBaseName}s` || normalizedName === `${itemBaseName}s gold`)) return true;
+
+                    return false;
+                });
 
                 if (matchingItem) {
                     const bundleId = `${categoryKey}.${bundleKey}`;
 
-                    // Check if already collected
-                    if (this.progress.collectedItems[bundleId]?.includes(matchingItem.name)) {
-                        return `You already collected ${matchingItem.name} for ${bundle.name}!`;
+                    // Check if already at max for quantity items
+                    const collectedInBundle = this.progress.collectedItems[bundleId] || [];
+                    const currentCount = collectedInBundle.filter(name => name === matchingItem.name).length;
+
+                    if (matchingItem.quantity && matchingItem.quantity > 1) {
+                        if (currentCount >= matchingItem.quantity) {
+                            return `You already collected ${matchingItem.quantity}x ${matchingItem.name}!`;
+                        }
+                    } else {
+                        if (collectedInBundle.includes(matchingItem.name)) {
+                            return `You already collected ${matchingItem.name} for ${bundle.name}!`;
+                        }
                     }
 
                     // Add to collected items
@@ -311,7 +339,12 @@ class BundleTracker {
                         this.progress.completedBundles.push(bundleId);
                         message = `Added ${matchingItem.name}! ${bundle.name} is now COMPLETE! 🎉`;
                     } else {
-                        message = `Added ${matchingItem.name} to ${bundle.name}! (${collected}/${bundle.required})`;
+                        if (matchingItem.quantity && matchingItem.quantity > 1) {
+                            const newCount = currentCount + 1;
+                            message = `Added ${matchingItem.name}! (${newCount}/${matchingItem.quantity})`;
+                        } else {
+                            message = `Added ${matchingItem.name} to ${bundle.name}! (${collected}/${bundle.required})`;
+                        }
                     }
 
                     this.saveProgress();
