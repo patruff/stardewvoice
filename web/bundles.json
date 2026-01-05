@@ -37,10 +37,10 @@
           "name": "Quality Crops Bundle",
           "required": 3,
           "items": [
-            {"name": "Parsnip", "quality": "gold", "seasons": ["spring"], "difficulty": 3},
-            {"name": "Melon", "quality": "gold", "seasons": ["summer"], "difficulty": 3},
-            {"name": "Pumpkin", "quality": "gold", "seasons": ["fall"], "difficulty": 3},
-            {"name": "Corn", "quality": "gold", "seasons": ["summer", "fall"], "difficulty": 3}
+            {"name": "Parsnip", "quality": "gold", "seasons": ["spring"], "difficulty": 3, "quantity": 5, "priority": 4, "strategy": "RUN KILLER! Plant 64+ Seeds on Day 6 with Basic Fertilizer. You likely need 40+ to guarantee 5 gold quality."},
+            {"name": "Melon", "quality": "gold", "seasons": ["summer"], "difficulty": 3, "quantity": 5, "priority": 3, "strategy": "Use Basic Fertilizer. Plant on Day 1. Critical for Quality Bundle completion."},
+            {"name": "Pumpkin", "quality": "gold", "seasons": ["fall"], "difficulty": 3, "quantity": 5, "priority": 3, "strategy": "Use Basic Fertilizer. Plant on Day 1 of Fall."},
+            {"name": "Corn", "quality": "gold", "seasons": ["summer", "fall"], "difficulty": 3, "quantity": 5, "priority": 2, "strategy": "Should have from Summer plantings. If not, plant in Fall with fertilizer."}
           ]
         },
         "animal": {
@@ -59,18 +59,18 @@
           "name": "Artisan Bundle",
           "required": 6,
           "items": [
-            {"name": "Truffle Oil", "quality": "normal", "seasons": ["fall"], "difficulty": 4},
-            {"name": "Cloth", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3},
-            {"name": "Goat Cheese", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3},
-            {"name": "Cheese", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
-            {"name": "Honey", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
-            {"name": "Jelly", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2},
-            {"name": "Apple", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
-            {"name": "Apricot", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier"},
-            {"name": "Orange", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
-            {"name": "Peach", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
-            {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2},
-            {"name": "Cherry", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier"}
+            {"name": "Truffle Oil", "quality": "normal", "seasons": ["fall"], "difficulty": 4, "priority": 4, "strategy": "RUN KILLER! Requires Deluxe Barn + Pig + Oil Maker. Get Truffle before Winter or run is over!"},
+            {"name": "Cloth", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3, "priority": 2, "strategy": "Loom + Wool from Rabbit/Sheep. OR recycle Soggy Newspaper."},
+            {"name": "Goat Cheese", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3, "priority": 3, "strategy": "Goat Milk in Cheese Press. Requires Barn + Goat."},
+            {"name": "Cheese", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "priority": 2, "strategy": "Milk in Cheese Press. Easier than Goat Cheese."},
+            {"name": "Honey", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "priority": 2, "strategy": "Bee House. Works in Summer-Fall. Build early Summer."},
+            {"name": "Jelly", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "priority": 2, "strategy": "Preserves Jar + any fruit. Easy to make."},
+            {"name": "Apple", "quality": "normal", "seasons": ["fall"], "difficulty": 2, "quantity": 3, "priority": 4, "strategy": "RUN KILLER! Apple tree planted in Summer or Bat Cave. Harvest in Fall."},
+            {"name": "Apricot", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier", "priority": 1},
+            {"name": "Orange", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "priority": 2},
+            {"name": "Peach", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "priority": 2},
+            {"name": "Pomegranate", "quality": "normal", "seasons": ["fall"], "difficulty": 2, "priority": 4, "strategy": "RUN KILLER! Pomegranate tree planted in Summer or Bat Cave. Harvest in Fall."},
+            {"name": "Cherry", "quality": "normal", "seasons": [], "difficulty": 2, "note": "Requires tree planted earlier", "priority": 1}
           ]
         }
       }
@@ -82,11 +82,11 @@
           "name": "River Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1, "time": "day", "location": "freshwater"},
-            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
-            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
-            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "location": "freshwater"},
-            {"name": "Rainbow Trout", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "time": "day", "location": "freshwater", "weather": "sunny"}
+            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1, "time": "day", "location": "freshwater", "priority": 1, "strategy": "River fish. Easy catch during sunny days, 6am-7pm."},
+            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater", "priority": 4, "strategy": "RUN KILLER! Only in Rain. Catch in Spring or wait till Fall. Don't miss rainy days!"},
+            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater", "priority": 3, "strategy": "Rainy days only. Fish the river during rain."},
+            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "location": "freshwater", "priority": 2, "strategy": "River fish. Available Fall-Winter, catch during daytime."},
+            {"name": "Rainbow Trout", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "time": "day", "location": "freshwater", "weather": "sunny", "priority": 3, "strategy": "Summer only, sunny weather required. Fish the river 6am-7pm."}
           ]
         },
         "lake_fish": {
@@ -114,19 +114,19 @@
           "name": "Night Fishing Bundle",
           "required": 3,
           "items": [
-            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain", "location": "freshwater"},
-            {"name": "Bream", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "night"},
-            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean"}
+            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "night", "weather": "rain", "location": "freshwater", "priority": 3, "strategy": "Fall-Winter, rainy nights only. River or Lake after 6pm."},
+            {"name": "Bream", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "time": "night", "priority": 1, "strategy": "Available year-round at night (after 6pm). Easy catch."},
+            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean", "priority": 4, "strategy": "RUN KILLER! Ocean, rainy evenings 4pm-2am. Spring or Fall only. Don't miss rain!"}
           ]
         },
         "specialty_fish": {
           "name": "Specialty Fish Bundle",
           "required": 4,
           "items": [
-            {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "noon", "location": "ocean"},
-            {"name": "Ghostfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
-            {"name": "Sandfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "desert"},
-            {"name": "Woodskip", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "secret_woods"}
+            {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "noon", "location": "ocean", "priority": 4, "strategy": "RUN KILLER! Summer only, sunny weather, 12pm-4pm. TIGHT WINDOW! Check ocean every sunny Summer day at noon."},
+            {"name": "Ghostfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "mines", "priority": 1, "strategy": "Mines Level 51-79. Drops from Ghosts. Available anytime."},
+            {"name": "Sandfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "desert", "priority": 2, "strategy": "Requires Bus Repair (42,500g). Fish in Calico Desert."},
+            {"name": "Woodskip", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "location": "secret_woods", "priority": 2, "strategy": "Secret Woods pond. Requires Steel Axe to access."}
           ]
         },
         "crab_pot": {
@@ -202,15 +202,15 @@
           "name": "Exotic Foraging Bundle",
           "required": 5,
           "items": [
-            {"name": "Coconut", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "location": "desert"},
-            {"name": "Cactus Fruit", "quality": "normal", "seasons": [], "difficulty": 2, "location": "desert", "note": "Requires bus repair"},
-            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines"},
-            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines"},
-            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 3, "location": "mines"},
-            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Oak Resin", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Pine Tar", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Morel", "quality": "normal", "seasons": ["spring"], "difficulty": 2, "location": "secret_woods"}
+            {"name": "Coconut", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "location": "desert", "priority": 2, "strategy": "Desert. Shake palm trees or check Oasis on Wednesdays."},
+            {"name": "Cactus Fruit", "quality": "normal", "seasons": [], "difficulty": 2, "location": "desert", "note": "Requires bus repair", "priority": 2},
+            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "priority": 1, "strategy": "Mines. Hoe dirt patches or break boxes. Save one!"},
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines", "priority": 1, "strategy": "Mines levels 40-79. Mushroom Cave also works."},
+            {"name": "Purple Mushroom", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 3, "location": "mines", "priority": 2, "strategy": "Mines deeper levels. Mushroom Cave is easier."},
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2, "priority": 2, "strategy": "Tapper on Maple Tree. Takes 9 days. Not available Spring (save Copper for tools!)."},
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2, "priority": 2, "strategy": "Tapper on Oak Tree. Takes 7-8 days. Not available Spring (save Copper for tools!)."},
+            {"name": "Pine Tar", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2, "priority": 2, "strategy": "Tapper on Pine Tree. Takes 5-6 days. Not available Spring (save Copper for tools!)."},
+            {"name": "Morel", "quality": "normal", "seasons": ["spring"], "difficulty": 2, "location": "secret_woods", "priority": 3, "strategy": "Secret Woods (requires Steel Axe) or Mushroom Cave. Spring only!"}
           ]
         }
       }
@@ -256,24 +256,24 @@
           "name": "Chef's Bundle",
           "required": 6,
           "items": [
-            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Fiddlehead Fern", "quality": "normal", "seasons": ["summer"], "difficulty": 2},
-            {"name": "Truffle", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 4},
-            {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
-            {"name": "Maki Roll", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Fried Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1}
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["summer", "fall", "winter"], "difficulty": 2, "priority": 2, "strategy": "Tapper on Maple Tree. Not Spring (save Copper!)."},
+            {"name": "Fiddlehead Fern", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "priority": 3, "strategy": "Secret Woods (Steel Axe required). Summer only, forage carefully!"},
+            {"name": "Truffle", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 4, "priority": 4, "strategy": "RUN KILLER! Requires Deluxe Barn + Pig. Must get before Winter!"},
+            {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 1, "priority": 2, "strategy": "Plant Day 1 of Summer. Harvest Day 8."},
+            {"name": "Maki Roll", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "priority": 1, "strategy": "Cook: Fish + Seaweed + Rice. Available anytime."},
+            {"name": "Fried Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "priority": 1, "strategy": "Cook an egg. Easy and available anytime."}
           ]
         },
         "dye": {
           "name": "Dye Bundle",
           "required": 6,
           "items": [
-            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines"},
-            {"name": "Sea Urchin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Sunflower", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
-            {"name": "Duck Feather", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2},
-            {"name": "Aquamarine", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3},
-            {"name": "Red Cabbage", "quality": "normal", "seasons": ["summer"], "difficulty": 2}
+            {"name": "Red Mushroom", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 2, "location": "mines", "priority": 1, "strategy": "Mines levels 40-79 or Mushroom Cave."},
+            {"name": "Sea Urchin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "priority": 1, "strategy": "Beach forage. Available year-round."},
+            {"name": "Sunflower", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1, "priority": 2, "strategy": "Plant Day 1 of Summer. Grows Summer & Fall."},
+            {"name": "Duck Feather", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "priority": 2, "strategy": "Duck drops feathers. Requires Coop upgrade."},
+            {"name": "Aquamarine", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "priority": 2, "strategy": "Mines nodes or boxes. Somewhat rare."},
+            {"name": "Red Cabbage", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "priority": 4, "strategy": "RUN KILLER! TRAVELING CART (Fri/Sun). CHECK EVERY TIME in Summer! Can't grow Year 1 without cart luck."}
           ]
         },
         "field_research": {

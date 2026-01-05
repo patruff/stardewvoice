@@ -384,8 +384,15 @@ class BundleTracker {
                 const bundleData = seasonalItems[bundleName];
                 const progressPercent = (bundleData.collected / bundleData.required) * 100;
 
-                // Sort items by difficulty (Run Killer > Hard > Medium > Easy)
-                const items = bundleData.items.sort((a, b) => b.item.difficulty - a.item.difficulty);
+                // Sort items by priority first, then difficulty (Critical > High > Medium > Low)
+                const items = bundleData.items.sort((a, b) => {
+                    const priorityA = a.item.priority || 1;
+                    const priorityB = b.item.priority || 1;
+                    if (priorityA !== priorityB) {
+                        return priorityB - priorityA; // Higher priority first
+                    }
+                    return b.item.difficulty - a.item.difficulty; // Then by difficulty
+                });
 
                 html += `<div class="bundle-card">`;
                 html += `<div class="bundle-header">`;
@@ -439,20 +446,50 @@ class BundleTracker {
     formatItemHTML(item, bundleId) {
         const difficultyClass = this.getDifficultyClass(item.difficulty);
         const difficultyLabel = this.getDifficultyLabel(item.difficulty);
+        const priority = item.priority || 1;
+        const priorityClass = this.getPriorityClass(priority);
+        const itemId = `${bundleId}-${item.name.replace(/\s/g, '-')}`;
+        const hasQuantity = item.quantity && item.quantity > 1;
 
-        let html = `<div class="item-row" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
-        html += `<div class="item-main">`;
+        // Get current collected count for this item
+        const collectedInBundle = this.progress.collectedItems[bundleId] || [];
+        const currentCount = collectedInBundle.filter(name => name === item.name).length;
+        const isComplete = hasQuantity ? (currentCount >= item.quantity) : collectedInBundle.includes(item.name);
 
-        // Checkbox and item name
-        html += `<label class="item-checkbox">`;
-        html += `<input type="checkbox" data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
-        html += `<span class="item-name">`;
-        if (item.quantity > 1) html += `${item.quantity}x `;
-        html += this.escapeHtml(item.name);
-        if (item.quality === 'gold') html += ' ⭐ Gold';
-        html += `</span>`;
-        html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
-        html += `</label>`;
+        let html = `<div class="item-row ${priorityClass}" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
+        html += `<div class="item-main" onclick="toggleStrategy('${itemId}')">`;
+
+        // Priority icon for high-priority items
+        if (priority >= 4) {
+            html += `<span class="priority-icon">⚠️</span>`;
+        }
+
+        if (hasQuantity) {
+            // Quantity counter widget
+            html += `<div class="item-info">`;
+            html += `<span class="item-name">`;
+            html += this.escapeHtml(item.name);
+            if (item.quality === 'gold') html += ' ⭐ Gold';
+            html += `</span>`;
+            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
+            html += `</div>`;
+
+            html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
+            html += `<button class="counter-btn" onclick="decrementItem('${bundleId}', '${this.escapeHtml(item.name)}')">−</button>`;
+            html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
+            html += `<button class="counter-btn" onclick="incrementItem('${bundleId}', '${this.escapeHtml(item.name)}', ${item.quantity})">+</button>`;
+            html += `</div>`;
+        } else {
+            // Simple checkbox for single items
+            html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
+            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
+            html += `<span class="item-name">`;
+            html += this.escapeHtml(item.name);
+            if (item.quality === 'gold') html += ' ⭐ Gold';
+            html += `</span>`;
+            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
+            html += `</label>`;
+        }
 
         // Item subtitle (quick info)
         html += `<div class="item-subtitle">`;
@@ -461,9 +498,24 @@ class BundleTracker {
         html += `</div>`;
 
         html += `</div>`; // item-main
+
+        // Strategy accordion (hidden by default)
+        if (item.strategy) {
+            html += `<div id="${itemId}" class="strategy-content hidden">`;
+            html += `<p><strong>Strategy:</strong> ${this.escapeHtml(item.strategy)}</p>`;
+            html += `</div>`;
+        }
+
         html += `</div>`; // item-row
 
         return html;
+    }
+
+    getPriorityClass(priority) {
+        if (priority === 4) return 'priority-critical';
+        if (priority === 3) return 'priority-high';
+        if (priority === 2) return 'priority-medium';
+        return 'priority-low';
     }
 
     buildSubtitle(item) {
@@ -811,7 +863,7 @@ class BundleTracker {
         output.innerHTML = html;
         output.scrollTop = 0;
 
-        // Add checkbox event listeners
+        // Add checkbox event listeners for single items
         const checkboxes = output.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
@@ -822,14 +874,27 @@ class BundleTracker {
                     // Add item
                     const result = this.addItem(itemName);
                     this.updateStatus(result, 'success');
-
-                    // Re-render to update progress
-                    setTimeout(() => {
-                        this.handleWhatNeeded();
-                    }, 500);
+                } else {
+                    // Remove item
+                    this.removeItem(itemName, bundleId);
                 }
+
+                // Re-render to update progress
+                setTimeout(() => {
+                    this.handleWhatNeeded();
+                }, 500);
             });
         });
+    }
+
+    removeItem(itemName, bundleId) {
+        if (!this.progress.collectedItems[bundleId]) return;
+
+        const index = this.progress.collectedItems[bundleId].indexOf(itemName);
+        if (index > -1) {
+            this.progress.collectedItems[bundleId].splice(index, 1);
+            this.saveProgress();
+        }
     }
 
     updateStatus(message, type) {
@@ -847,6 +912,52 @@ class BundleTracker {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+}
+
+// Global helper functions for UI interactions
+function toggleStrategy(itemId) {
+    const strategyDiv = document.getElementById(itemId);
+    if (strategyDiv) {
+        strategyDiv.classList.toggle('hidden');
+    }
+}
+
+function incrementItem(bundleId, itemName, maxQuantity) {
+    const tracker = window.bundleTracker;
+    if (!tracker) return;
+
+    const collectedInBundle = tracker.progress.collectedItems[bundleId] || [];
+    const currentCount = collectedInBundle.filter(name => name === itemName).length;
+
+    if (currentCount < maxQuantity) {
+        // Add one more
+        const result = tracker.addItem(itemName);
+        tracker.updateStatus(`Added ${itemName}! (${currentCount + 1}/${maxQuantity})`, 'success');
+
+        // Re-render to update counters
+        setTimeout(() => {
+            tracker.handleWhatNeeded();
+        }, 300);
+    }
+}
+
+function decrementItem(bundleId, itemName) {
+    const tracker = window.bundleTracker;
+    if (!tracker) return;
+
+    const collectedInBundle = tracker.progress.collectedItems[bundleId] || [];
+    const currentCount = collectedInBundle.filter(name => name === itemName).length;
+
+    if (currentCount > 0) {
+        // Remove one
+        tracker.removeItem(itemName, bundleId);
+        tracker.updateStatus(`Removed ${itemName}! (${currentCount - 1})`, 'success');
+
+        // Re-render to update counters
+        setTimeout(() => {
+            tracker.handleWhatNeeded();
+        }, 300);
     }
 }
 
