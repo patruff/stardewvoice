@@ -676,7 +676,6 @@ class BundleTracker {
     showProgress() {
         let total = 0;
         let completed = 0;
-        let result = `📊 Bundle Progress${this.strictMode ? ` - ${this.currentSeason.charAt(0).toUpperCase() + this.currentSeason.slice(1)}` : ''}:\n\n`;
 
         // First pass: collect bundle info
         const bundlesByCategory = {};
@@ -694,7 +693,6 @@ class BundleTracker {
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
                 // Check if bundle has UNCOLLECTED items for current season
-                // In strict mode, also exclude year-round items (available all 4 seasons)
                 const hasSeasonalItemsNeeded = bundle.items.some(item => {
                     // Skip already collected items
                     if (collectedInBundle.includes(item.name)) return false;
@@ -731,92 +729,143 @@ class BundleTracker {
             }
         }
 
+        // Build HTML result
+        let html = `<div class="bundle-list">`;
+        const seasonTitle = this.strictMode ? ` - ${this.currentSeason.charAt(0).toUpperCase() + this.currentSeason.slice(1)}` : '';
+        html += `<h2 class="season-title">📊 Bundle Progress${seasonTitle}</h2>`;
+
         // Second pass: display bundles
         for (const [categoryKey, categoryData] of Object.entries(bundlesByCategory)) {
             // Skip empty categories
             if (categoryData.bundles.length === 0) continue;
 
-            result += `━━━━━ ${categoryData.name} ━━━━━\n\n`;
+            html += `<div class="category-section">`;
+            html += `<h3 class="category-header">${categoryData.name}</h3>`;
 
             for (const bundleData of categoryData.bundles) {
                 const { bundle, bundleId, collectedInBundle, collectedCount, isComplete } = bundleData;
 
-                // Bundle header
-                if (isComplete) {
-                    result += `✅ ${bundle.name} - COMPLETE!\n`;
-                    // Show what was collected in completed bundle
-                    if (collectedInBundle.length > 0) {
-                        result += `  Collected:\n`;
-                        for (const itemName of collectedInBundle) {
-                            result += `    ✓ ${itemName}\n`;
-                        }
-                    }
-                    result += '\n';
-                } else {
-                    // Calculate seasonal progress if in strict mode
-                    if (this.strictMode) {
-                        const seasonalItems = bundle.items.filter(item =>
-                            item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
-                        );
-                        const collectedSeasonalItems = seasonalItems.filter(item =>
-                            collectedInBundle.includes(item.name)
-                        );
+                const progressPercent = (collectedCount / bundle.required) * 100;
 
-                        result += `📦 ${bundle.name}\n`;
-                        result += `    ${this.currentSeason}: ${collectedSeasonalItems.length}/${seasonalItems.length} items | Overall: ${collectedCount}/${bundle.required}\n`;
-                    } else {
-                        result += `📦 ${bundle.name} (${collectedCount}/${bundle.required})\n`;
-                    }
+                html += `<div class="bundle-card ${isComplete ? 'complete' : ''}">`;
+                html += `<div class="bundle-header">`;
+                html += `<span>${isComplete ? '✅ ' : ''}${bundle.name}</span>`;
+                html += `<span class="bundle-progress">${collectedCount}/${bundle.required}</span>`;
+                html += `</div>`;
 
-                    // Show collected items
-                    if (collectedCount > 0) {
-                        result += `  Collected:\n`;
-                        for (const itemName of collectedInBundle) {
-                            result += `    ✓ ${itemName}\n`;
-                        }
-                    }
-
-                    // Show needed items (filtered by season if strict mode)
-                    let neededItems = bundle.items.filter(item => !collectedInBundle.includes(item.name));
-
-                    if (this.strictMode) {
-                        // Only show items available in current season
-                        neededItems = neededItems.filter(item =>
-                            item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase())
-                        );
-                    }
-
-                    const stillNeeded = bundle.required - collectedCount;
-
-                    if (neededItems.length > 0) {
-                        const seasonNote = this.strictMode ? ` (${this.currentSeason})` : '';
-                        result += `  Still Needed (${stillNeeded} more${seasonNote}):\n`;
-                        for (const item of neededItems) {
-                            result += this.formatProgressItem(item);
-                        }
-                    } else if (stillNeeded > 0 && this.strictMode) {
-                        // There are items needed but not available this season
-                        result += `  ℹ️ ${stillNeeded} item(s) needed, but not available in ${this.currentSeason}\n`;
-                    }
-
-                    result += '\n';
+                if (!isComplete) {
+                    html += `<div class="progress-bar">`;
+                    html += `<div class="progress-fill" style="width: ${progressPercent}%"></div>`;
+                    html += `</div>`;
                 }
+
+                html += `<div class="bundle-items">`;
+
+                // Show all items with checkboxes
+                for (const item of bundle.items) {
+                    const isCollected = collectedInBundle.includes(item.name);
+                    const hasQuantity = item.quantity && item.quantity > 1;
+                    const currentCount = collectedInBundle.filter(name => name === item.name).length;
+
+                    if (hasQuantity) {
+                        // Quantity items
+                        html += this.formatProgressItemHTML(item, bundleId, currentCount);
+                    } else {
+                        // Single items
+                        html += this.formatProgressItemHTML(item, bundleId, isCollected ? 1 : 0);
+                    }
+                }
+
+                html += `</div></div>`;
             }
+
+            html += `</div>`;
         }
 
         if (total === 0 && this.strictMode) {
-            result += `ℹ️ No bundles have items available in ${this.currentSeason}.\nTurn off Strict Mode to see all bundles.\n\n`;
+            html += `<div class="empty-message">ℹ️ No bundles have items available in ${this.currentSeason}.<br>Turn off Strict Mode to see all bundles.</div>`;
         }
 
-        result += `━━━━━━━━━━━━━━━━━━━━━━\n`;
         const totalBundles = Object.values(this.bundles.bundles).reduce((sum, cat) => sum + Object.keys(cat.bundles).length, 0);
-        result += `Total Progress: ${completed}/${totalBundles} bundles complete (${Math.round(completed/totalBundles*100)}%)`;
-
+        html += `<div class="progress-summary">`;
+        html += `<strong>Total Progress:</strong> ${completed}/${totalBundles} bundles complete (${Math.round(completed/totalBundles*100)}%)`;
         if (this.strictMode) {
-            result += `\nShowing: ${total} ${this.currentSeason} bundles`;
+            html += `<br><em>Showing: ${total} ${this.currentSeason} bundles</em>`;
+        }
+        html += `</div>`;
+
+        html += `</div>`;
+        this.displayHTML(html);
+    }
+
+    formatProgressItemHTML(item, bundleId, currentCount) {
+        const hasQuantity = item.quantity && item.quantity > 1;
+        const isComplete = hasQuantity ? (currentCount >= item.quantity) : (currentCount > 0);
+        const difficultyClass = this.getDifficultyClass(item.difficulty);
+        const difficultyLabel = this.getDifficultyLabel(item.difficulty);
+        const priority = item.priority || 1;
+        const priorityClass = this.getPriorityClass(priority);
+        const itemId = `${bundleId}-${item.name}`.replace(/[^a-zA-Z0-9_-]/g, '-');
+
+        let html = `<div class="item-row ${priorityClass} ${isComplete ? 'checked' : ''}" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
+        html += `<div class="item-main">`;
+
+        // Priority icon
+        if (priority >= 4) {
+            html += `<span class="priority-icon">⚠️</span>`;
         }
 
-        this.displayText(result);
+        if (hasQuantity) {
+            // Quantity counter widget
+            html += `<div class="item-info" onclick="toggleStrategy('${itemId}')">`;
+            html += `<span class="item-name">`;
+            html += this.escapeHtml(item.name);
+            if (item.quality === 'gold') html += ' ⭐ Gold';
+            if (item.strategy) html += ' 💡';
+            html += `</span>`;
+            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
+            html += `</div>`;
+
+            html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
+            html += `<button class="counter-btn" onclick="decrementItem('${bundleId}', '${this.escapeHtml(item.name)}')">−</button>`;
+            html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
+            html += `<button class="counter-btn" onclick="incrementItem('${bundleId}', '${this.escapeHtml(item.name)}', ${item.quantity})">+</button>`;
+            html += `</div>`;
+        } else {
+            // Simple checkbox
+            html += `<div class="item-info-single">`;
+            html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
+            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
+            html += `<span class="item-name">`;
+            html += this.escapeHtml(item.name);
+            if (item.quality === 'gold') html += ' ⭐ Gold';
+            if (item.strategy) html += ' 💡';
+            html += `</span>`;
+            html += `</label>`;
+            html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
+            html += `</div>`;
+        }
+
+        // Item subtitle
+        html += `<div class="item-subtitle" ${item.strategy ? `onclick="toggleStrategy('${itemId}')"` : ''}>`;
+        const subtitle = this.buildSubtitle(item);
+        html += subtitle;
+        if (item.strategy && subtitle) html += ' • ';
+        if (item.strategy) html += '<span class="strategy-hint">📖 Click for strategy</span>';
+        html += `</div>`;
+
+        html += `</div>`; // item-main
+
+        // Strategy accordion
+        if (item.strategy) {
+            html += `<div id="${itemId}" class="strategy-content hidden">`;
+            html += `<p><strong>Strategy:</strong> ${this.escapeHtml(item.strategy)}</p>`;
+            html += `</div>`;
+        }
+
+        html += `</div>`; // item-row
+
+        return html;
     }
 
     formatProgressItem(item) {
