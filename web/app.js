@@ -566,15 +566,15 @@ class BundleTracker {
             html += `</div>`;
 
             html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
-            html += `<button class="counter-btn" onclick="decrementItem('${bundleId}', '${this.escapeHtml(item.name)}')">−</button>`;
+            html += `<button class="counter-btn" onclick="decrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}')">−</button>`;
             html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
-            html += `<button class="counter-btn" onclick="incrementItem('${bundleId}', '${this.escapeHtml(item.name)}', ${item.quantity})">+</button>`;
+            html += `<button class="counter-btn" onclick="incrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}', ${item.quantity})">+</button>`;
             html += `</div>`;
         } else {
             // Simple checkbox for single items
             html += `<div class="item-info-single">`;
             html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
-            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
+            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
             html += `<span class="item-name">`;
             html += this.escapeHtml(item.name);
             if (item.quality === 'gold') html += ' ⭐ Gold';
@@ -893,15 +893,15 @@ class BundleTracker {
             html += `</div>`;
 
             html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
-            html += `<button class="counter-btn" onclick="decrementItem('${bundleId}', '${this.escapeHtml(item.name)}')">−</button>`;
+            html += `<button class="counter-btn" onclick="decrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}')">−</button>`;
             html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
-            html += `<button class="counter-btn" onclick="incrementItem('${bundleId}', '${this.escapeHtml(item.name)}', ${item.quantity})">+</button>`;
+            html += `<button class="counter-btn" onclick="incrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}', ${item.quantity})">+</button>`;
             html += `</div>`;
         } else {
             // Simple checkbox
             html += `<div class="item-info-single">`;
             html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
-            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
+            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
             html += `<span class="item-name">`;
             html += this.escapeHtml(item.name);
             if (item.quality === 'gold') html += ' ⭐ Gold';
@@ -1131,6 +1131,16 @@ class BundleTracker {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    escapeJs(text) {
+        // Escape text for use in JavaScript strings (within HTML attributes)
+        return text
+            .replace(/\\/g, '\\\\')
+            .replace(/'/g, "\\'")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r');
     }
 }
 
