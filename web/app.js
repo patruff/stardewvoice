@@ -119,12 +119,36 @@ class BundleTracker {
                 e.target.classList.add('active');
                 // Update current season
                 this.currentSeason = e.target.dataset.season;
+
+                // Refresh the view if we're currently showing a view
+                const output = document.getElementById('output');
+                if (output.querySelector('.bundle-list')) {
+                    // Check if we're in progress view or requirements view
+                    const title = output.querySelector('.season-title');
+                    if (title && title.textContent.includes('Bundle Progress')) {
+                        this.showProgress();
+                    } else {
+                        this.handleWhatNeeded();
+                    }
+                }
             });
         });
 
         // Strict mode toggle
         document.getElementById('strictMode').addEventListener('change', (e) => {
             this.strictMode = e.target.checked;
+
+            // Refresh the view if we're currently showing a view
+            const output = document.getElementById('output');
+            if (output.querySelector('.bundle-list')) {
+                // Check if we're in progress view or requirements view
+                const title = output.querySelector('.season-title');
+                if (title && title.textContent.includes('Bundle Progress')) {
+                    this.showProgress();
+                } else {
+                    this.handleWhatNeeded();
+                }
+            }
         });
 
         // Quick progress button (in settings bar)
@@ -761,8 +785,18 @@ class BundleTracker {
 
                 html += `<div class="bundle-items">`;
 
-                // Show all items with checkboxes
-                for (const item of bundle.items) {
+                // Show items (filter by season in strict mode)
+                let itemsToShow = bundle.items;
+
+                if (this.strictMode) {
+                    // Only show items available in current season (or year-round items)
+                    itemsToShow = bundle.items.filter(item => {
+                        const seasons = item.seasons.map(s => s.toLowerCase());
+                        return seasons.includes(this.currentSeason.toLowerCase());
+                    });
+                }
+
+                for (const item of itemsToShow) {
                     const isCollected = collectedInBundle.includes(item.name);
                     const hasQuantity = item.quantity && item.quantity > 1;
                     const currentCount = collectedInBundle.filter(name => name === item.name).length;
