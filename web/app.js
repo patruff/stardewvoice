@@ -481,7 +481,8 @@ class BundleTracker {
         const difficultyLabel = this.getDifficultyLabel(item.difficulty);
         const priority = item.priority || 1;
         const priorityClass = this.getPriorityClass(priority);
-        const itemId = `${bundleId}-${item.name.replace(/\s/g, '-')}`;
+        // Sanitize ID to only use safe characters (letters, numbers, hyphens, underscores)
+        const itemId = `${bundleId}-${item.name}`.replace(/[^a-zA-Z0-9_-]/g, '-');
         const hasQuantity = item.quantity && item.quantity > 1;
 
         // Get current collected count for this item
@@ -490,7 +491,7 @@ class BundleTracker {
         const isComplete = hasQuantity ? (currentCount >= item.quantity) : collectedInBundle.includes(item.name);
 
         let html = `<div class="item-row ${priorityClass}" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
-        html += `<div class="item-main" onclick="toggleStrategy('${itemId}')">`;
+        html += `<div class="item-main">`;
 
         // Priority icon for high-priority items
         if (priority >= 4) {
@@ -499,7 +500,7 @@ class BundleTracker {
 
         if (hasQuantity) {
             // Quantity counter widget
-            html += `<div class="item-info">`;
+            html += `<div class="item-info" onclick="toggleStrategy('${itemId}')">`;
             html += `<span class="item-name">`;
             html += this.escapeHtml(item.name);
             if (item.quality === 'gold') html += ' ⭐ Gold';
@@ -515,6 +516,7 @@ class BundleTracker {
             html += `</div>`;
         } else {
             // Simple checkbox for single items
+            html += `<div class="item-info-single">`;
             html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
             html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeHtml(item.name)}" data-bundle="${bundleId}">`;
             html += `<span class="item-name">`;
@@ -522,16 +524,17 @@ class BundleTracker {
             if (item.quality === 'gold') html += ' ⭐ Gold';
             if (item.strategy) html += ' 💡';
             html += `</span>`;
-            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
             html += `</label>`;
+            html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
+            html += `</div>`;
         }
 
         // Item subtitle (quick info)
-        html += `<div class="item-subtitle">`;
+        html += `<div class="item-subtitle" ${item.strategy ? `onclick="toggleStrategy('${itemId}')"` : ''}>`;
         const subtitle = this.buildSubtitle(item);
         html += subtitle;
         if (item.strategy && subtitle) html += ' • ';
-        if (item.strategy) html += '<span class="strategy-hint">Click for strategy</span>';
+        if (item.strategy) html += '<span class="strategy-hint">📖 Click for strategy</span>';
         html += `</div>`;
 
         html += `</div>`; // item-main
@@ -957,6 +960,9 @@ function toggleStrategy(itemId) {
     const strategyDiv = document.getElementById(itemId);
     if (strategyDiv) {
         strategyDiv.classList.toggle('hidden');
+        console.log(`Toggled strategy for ${itemId}, hidden: ${strategyDiv.classList.contains('hidden')}`);
+    } else {
+        console.error(`Strategy div not found for ${itemId}`);
     }
 }
 
