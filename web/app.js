@@ -25,6 +25,9 @@ class BundleTracker {
 
         // Setup PWA install
         this.setupPWA();
+
+        // Update complete bundles button
+        this.updateCompleteBundlesButton();
     }
 
     async loadBundles() {
@@ -40,16 +43,23 @@ class BundleTracker {
     loadProgress() {
         const saved = localStorage.getItem('stardew_progress');
         if (saved) {
-            return JSON.parse(saved);
+            const progress = JSON.parse(saved);
+            // Ensure turnedInBundles exists (for backwards compatibility)
+            if (!progress.turnedInBundles) {
+                progress.turnedInBundles = [];
+            }
+            return progress;
         }
         return {
             collectedItems: {},
-            completedBundles: []
+            completedBundles: [],
+            turnedInBundles: []
         };
     }
 
     saveProgress() {
         localStorage.setItem('stardew_progress', JSON.stringify(this.progress));
+        this.updateCompleteBundlesButton();
     }
 
     setupVoiceRecognition() {
@@ -170,6 +180,28 @@ class BundleTracker {
         document.getElementById('resetBtn').addEventListener('click', () => {
             this.resetProgress();
         });
+
+        // Complete bundles button
+        document.getElementById('completeBundlesBtn').addEventListener('click', () => {
+            this.showCompleteBundles();
+        });
+    }
+
+    updateCompleteBundlesButton() {
+        // Count bundles that are complete but not turned in
+        const notTurnedIn = this.progress.completedBundles.filter(
+            bundleId => !this.progress.turnedInBundles.includes(bundleId)
+        );
+
+        const btn = document.getElementById('completeBundlesBtn');
+        const badge = btn.querySelector('.bundle-count-badge');
+
+        if (notTurnedIn.length > 0) {
+            badge.textContent = notTurnedIn.length;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
     }
 
     setupPWA() {
@@ -963,11 +995,65 @@ class BundleTracker {
         return line;
     }
 
+    showCompleteBundles() {
+        // Get bundles that are complete but not turned in
+        const notTurnedIn = this.progress.completedBundles.filter(
+            bundleId => !this.progress.turnedInBundles.includes(bundleId)
+        );
+
+        if (notTurnedIn.length === 0) {
+            this.displayText('🎉 No completed bundles waiting to be turned in!\n\nComplete some bundles and they\'ll show up here as a reminder to turn them in at the Community Center.');
+            return;
+        }
+
+        // Build HTML for complete bundles
+        let html = `<div class="bundle-list">`;
+        html += `<h2 class="season-title">🎁 Ready to Turn In (${notTurnedIn.length})</h2>`;
+        html += `<p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem; font-size: 1.1rem;">Don't forget to visit the Community Center to turn these in!</p>`;
+
+        for (const bundleId of notTurnedIn) {
+            const [categoryKey, bundleKey] = bundleId.split('.');
+            const category = this.bundles.bundles[categoryKey];
+            const bundle = category.bundles[bundleKey];
+            const collectedItems = this.progress.collectedItems[bundleId] || [];
+
+            html += `<div class="bundle-card complete">`;
+            html += `<div class="bundle-header">`;
+            html += `<span>✅ ${bundle.name}</span>`;
+            html += `<span class="bundle-progress">${collectedItems.length}/${bundle.required}</span>`;
+            html += `</div>`;
+            html += `<div class="bundle-items" style="padding: 1rem;">`;
+            html += `<div style="margin-bottom: 1rem;">`;
+            html += `<strong>Items Collected:</strong><br>`;
+            for (const itemName of collectedItems) {
+                html += `<span style="color: var(--green-grass); margin-left: 1rem;">✓ ${this.escapeHtml(itemName)}</span><br>`;
+            }
+            html += `</div>`;
+            html += `<button class="btn-turn-in" onclick="turnInBundle('${bundleId}')">`;
+            html += `📦 Mark as Turned In`;
+            html += `</button>`;
+            html += `</div></div>`;
+        }
+
+        html += `</div>`;
+        this.displayHTML(html);
+    }
+
+    turnInBundle(bundleId) {
+        if (!this.progress.turnedInBundles.includes(bundleId)) {
+            this.progress.turnedInBundles.push(bundleId);
+            this.saveProgress();
+            this.showCompleteBundles(); // Refresh the view
+            this.updateStatus('Bundle marked as turned in! 🎉', 'success');
+        }
+    }
+
     resetProgress() {
         if (confirm('Are you sure you want to reset all your bundle progress?')) {
             this.progress = {
                 collectedItems: {},
-                completedBundles: []
+                completedBundles: [],
+                turnedInBundles: []
             };
             this.saveProgress();
             this.displayText('All progress has been reset!');
@@ -1046,6 +1132,13 @@ function toggleStrategy(itemId) {
         console.log(`Toggled strategy for ${itemId}, hidden: ${strategyDiv.classList.contains('hidden')}`);
     } else {
         console.error(`Strategy div not found for ${itemId}`);
+    }
+}
+
+function turnInBundle(bundleId) {
+    const tracker = window.bundleTracker;
+    if (tracker) {
+        tracker.turnInBundle(bundleId);
     }
 }
 

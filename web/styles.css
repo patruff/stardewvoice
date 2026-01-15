@@ -356,8 +356,63 @@ body {
 
 .secondary-controls {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 0.75rem;
+}
+
+.btn-with-badge {
+    position: relative;
+}
+
+.bundle-count-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-red);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    min-width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.btn-turn-in {
+    background: var(--green-grass);
+    color: var(--white);
+    border: 3px solid var(--wood-brown);
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 0 var(--dark-wood), 0 6px 8px var(--shadow);
+    font-family: 'VT323', monospace;
+    width: 100%;
+}
+
+.btn-turn-in:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--dark-wood), 0 8px 12px var(--shadow);
+}
+
+.btn-turn-in:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--dark-wood), 0 3px 4px var(--shadow);
 }
 
 .btn-secondary {
@@ -873,6 +928,10 @@ body {
         font-size: 1rem;
     }
 
+    .secondary-controls {
+        grid-template-columns: 1fr;
+    }
+
     .settings-bar {
         flex-direction: column;
         align-items: stretch;
@@ -894,6 +953,11 @@ body {
 
     .season-btn {
         font-size: 0.9rem;
+    }
+
+    .bundle-count-badge {
+        top: -4px;
+        right: -4px;
     }
 }
 
