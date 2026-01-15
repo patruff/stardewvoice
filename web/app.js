@@ -1086,12 +1086,22 @@ class BundleTracker {
                 } else {
                     // Remove item
                     this.removeItem(itemName, bundleId);
+                    this.updateStatus(`Removed ${itemName}`, 'success');
                 }
 
-                // Re-render to update progress
+                // Re-render current view quickly
                 setTimeout(() => {
-                    this.handleWhatNeeded();
-                }, 500);
+                    const title = output.querySelector('.season-title');
+                    if (title) {
+                        if (title.textContent.includes('Bundle Progress')) {
+                            this.showProgress();
+                        } else if (title.textContent.includes('Ready to Turn In')) {
+                            this.showCompleteBundles();
+                        } else {
+                            this.handleWhatNeeded();
+                        }
+                    }
+                }, 100);
             });
         });
     }
@@ -1154,10 +1164,10 @@ function incrementItem(bundleId, itemName, maxQuantity) {
         const result = tracker.addItem(itemName);
         tracker.updateStatus(`Added ${itemName}! (${currentCount + 1}/${maxQuantity})`, 'success');
 
-        // Re-render to update counters
+        // Re-render current view
         setTimeout(() => {
-            tracker.handleWhatNeeded();
-        }, 300);
+            refreshCurrentView();
+        }, 100);
     }
 }
 
@@ -1173,10 +1183,29 @@ function decrementItem(bundleId, itemName) {
         tracker.removeItem(itemName, bundleId);
         tracker.updateStatus(`Removed ${itemName}! (${currentCount - 1})`, 'success');
 
-        // Re-render to update counters
+        // Re-render current view
         setTimeout(() => {
-            tracker.handleWhatNeeded();
-        }, 300);
+            refreshCurrentView();
+        }, 100);
+    }
+}
+
+function refreshCurrentView() {
+    const tracker = window.bundleTracker;
+    if (!tracker) return;
+
+    const output = document.getElementById('output');
+    if (output.querySelector('.bundle-list')) {
+        const title = output.querySelector('.season-title');
+        if (title) {
+            if (title.textContent.includes('Bundle Progress')) {
+                tracker.showProgress();
+            } else if (title.textContent.includes('Ready to Turn In')) {
+                tracker.showCompleteBundles();
+            } else {
+                tracker.handleWhatNeeded();
+            }
+        }
     }
 }
 
