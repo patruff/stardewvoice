@@ -137,6 +137,79 @@
           ]
         }
       }
+    },
+    "year_round": {
+      "name": "⚙️ Year Round",
+      "bundles": {
+        "mines_minerals": {
+          "name": "Mines (Minerals & Loot)",
+          "required": 8,
+          "items": [
+            {"name": "Quartz", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "strategy": "Found on the ground in the Mines (Floors 1–120)."},
+            {"name": "Earth Crystal", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "strategy": "Found in Mines (Floors 1–39)."},
+            {"name": "Frozen Tear", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "strategy": "Found in Mines (Floors 40–79)."},
+            {"name": "Fire Quartz", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines", "strategy": "Found in Mines (Floors 80+). Requires reaching the bottom third of the mines."},
+            {"name": "Slime", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "quantity": 99, "strategy": "Kill Slimes anywhere. You will get this naturally."},
+            {"name": "Bat Wing", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "quantity": 10, "strategy": "Kill Bats (Floors 31+)."},
+            {"name": "Solar Essence", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines", "strategy": "Kill Ghosts (Floors 51–79). Don't sell these early!"},
+            {"name": "Void Essence", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines", "strategy": "Kill Shadow Brutes (Floors 80+). Don't sell these early!"}
+          ]
+        },
+        "blacksmithing": {
+          "name": "Blacksmithing (Bars)",
+          "required": 3,
+          "items": [
+            {"name": "Copper Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Smelt 5 Copper Ore + 1 Coal. Do not sell your first bars."},
+            {"name": "Iron Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Smelt 5 Iron Ore (Floors 40+) + 1 Coal. Do not sell your first bars."},
+            {"name": "Gold Bar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Smelt 5 Gold Ore (Floors 80+) + 1 Coal. Do not sell your first bars."}
+          ]
+        },
+        "animals": {
+          "name": "Animals (Coop & Barn)",
+          "required": 5,
+          "items": [
+            {"name": "Large Egg (White)", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Chickens: Feed them daily and pet them until they are happy."},
+            {"name": "Large Egg (Brown)", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Chickens: Buy both white and brown chickens to ensure you get both egg types."},
+            {"name": "Large Milk", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Cows: Milk them daily with a Milk Pail. Keep them happy."},
+            {"name": "Large Goat Milk", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Goats: Requires Big Barn upgrade. Milk every other day."},
+            {"name": "Duck Egg", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Ducks: Requires Big Coop upgrade."}
+          ]
+        },
+        "artisan_goods": {
+          "name": "Artisan Goods",
+          "required": 4,
+          "items": [
+            {"name": "Honey", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 1, "strategy": "Craft a Bee House (Farming Lvl 3). Place it outside (except Winter)."},
+            {"name": "Jelly", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Craft a Preserves Jar (Farming Lvl 4). Put any cheap fruit/veg inside."},
+            {"name": "Cheese", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Craft a Cheese Press (Farming Lvl 6). Put Milk inside."},
+            {"name": "Cloth", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "strategy": "Method A: Recycle Soggy Newspaper in a Recycling Machine (low chance). Method B: Kill Mummies in Skull Cavern (hard). Method C: Build a Loom (Farming Lvl 7) + Wool (Requires Rabbit or Sheep)."}
+          ]
+        },
+        "construction_tappers": {
+          "name": "Construction & Tappers",
+          "required": 7,
+          "items": [
+            {"name": "Wood", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 198, "strategy": "Chop trees. Save 2 stacks of 99."},
+            {"name": "Stone", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "quantity": 99, "strategy": "Mine rocks."},
+            {"name": "Hardwood", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "quantity": 10, "strategy": "Upgrade to Copper Axe. Chop the large stumps in the Secret Woods (top left of Forest)."},
+            {"name": "Maple Syrup", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Place Tapper on Maple Tree (curved leaves)."},
+            {"name": "Oak Resin", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Place Tapper on Oak Tree (small leaves)."},
+            {"name": "Pine Tar", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "strategy": "Place Tapper on Pine Tree (pointy top)."},
+            {"name": "Cave Carrot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "mines", "strategy": "Use your Hoe on dirt patches inside the Mines (Floors 10-20 are good)."}
+          ]
+        },
+        "crab_pot_hack": {
+          "name": "Crab Pot (Beach Foraging)",
+          "required": 5,
+          "items": [
+            {"name": "Clam", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "beach", "strategy": "Beach Forage."},
+            {"name": "Cockle", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "beach", "strategy": "Beach Forage."},
+            {"name": "Mussel", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "beach", "strategy": "Beach Forage."},
+            {"name": "Oyster", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 1, "location": "beach", "strategy": "Beach Forage."},
+            {"name": "Crab", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "location": "mines", "strategy": "Kill Rock Crabs (Mines Floors 1-29). They drop crabs rarely. This saves you from making a pot!"}
+          ]
+        }
+      }
     }
   }
 }
