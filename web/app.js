@@ -367,21 +367,17 @@ class BundleTracker {
                 if (matchingItem) {
                     const bundleId = `${categoryKey}.${bundleKey}`;
 
-                    // Check if already at max for quantity items
+                    // Check if already collected
                     const collectedInBundle = this.progress.collectedItems[bundleId] || [];
-                    const currentCount = collectedInBundle.filter(name => name === matchingItem.name).length;
 
-                    if (matchingItem.quantity && matchingItem.quantity > 1) {
-                        if (currentCount >= matchingItem.quantity) {
-                            return `You already collected ${matchingItem.quantity}x ${matchingItem.name}!`;
-                        }
-                    } else {
-                        if (collectedInBundle.includes(matchingItem.name)) {
-                            return `You already collected ${matchingItem.name} for ${bundle.name}!`;
-                        }
+                    if (collectedInBundle.includes(matchingItem.name)) {
+                        const displayName = matchingItem.quantity > 1
+                            ? `${matchingItem.quantity}x ${matchingItem.name}`
+                            : matchingItem.name;
+                        return `You already collected ${displayName} for ${bundle.name}!`;
                     }
 
-                    // Add to collected items
+                    // Add to collected items (just once per item, even for quantity items)
                     if (!this.progress.collectedItems[bundleId]) {
                         this.progress.collectedItems[bundleId] = [];
                     }
@@ -393,14 +389,15 @@ class BundleTracker {
 
                     if (collected >= bundle.required) {
                         this.progress.completedBundles.push(bundleId);
-                        message = `Added ${matchingItem.name}! ${bundle.name} is now COMPLETE! 🎉`;
+                        const displayName = matchingItem.quantity > 1
+                            ? `${matchingItem.quantity}x ${matchingItem.name}`
+                            : matchingItem.name;
+                        message = `Added ${displayName}! ${bundle.name} is now COMPLETE! 🎉`;
                     } else {
-                        if (matchingItem.quantity && matchingItem.quantity > 1) {
-                            const newCount = currentCount + 1;
-                            message = `Added ${matchingItem.name}! (${newCount}/${matchingItem.quantity})`;
-                        } else {
-                            message = `Added ${matchingItem.name} to ${bundle.name}! (${collected}/${bundle.required})`;
-                        }
+                        const displayName = matchingItem.quantity > 1
+                            ? `${matchingItem.quantity}x ${matchingItem.name}`
+                            : matchingItem.name;
+                        message = `Added ${displayName} to ${bundle.name}! (${collected}/${bundle.required})`;
                     }
 
                     this.saveProgress();
@@ -543,10 +540,9 @@ class BundleTracker {
 
         // Get current collected count for this item
         const collectedInBundle = this.progress.collectedItems[bundleId] || [];
-        const currentCount = collectedInBundle.filter(name => name === item.name).length;
-        const isComplete = hasQuantity ? (currentCount >= item.quantity) : collectedInBundle.includes(item.name);
+        const isComplete = collectedInBundle.includes(item.name);
 
-        let html = `<div class="item-row ${priorityClass}" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
+        let html = `<div class="item-row ${priorityClass} ${isComplete ? 'checked' : ''}" data-bundle-id="${bundleId}" data-item-name="${this.escapeHtml(item.name)}">`;
         html += `<div class="item-main">`;
 
         // Priority icon for high-priority items
@@ -554,36 +550,19 @@ class BundleTracker {
             html += `<span class="priority-icon">⚠️</span>`;
         }
 
-        if (hasQuantity) {
-            // Quantity counter widget
-            html += `<div class="item-info" onclick="toggleStrategy('${itemId}')">`;
-            html += `<span class="item-name">`;
-            html += this.escapeHtml(item.name);
-            if (item.quality === 'gold') html += ' ⭐ Gold';
-            if (item.strategy) html += ' 💡';
-            html += `</span>`;
-            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
-            html += `</div>`;
-
-            html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
-            html += `<button class="counter-btn" onclick="decrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}')">−</button>`;
-            html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
-            html += `<button class="counter-btn" onclick="incrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}', ${item.quantity})">+</button>`;
-            html += `</div>`;
-        } else {
-            // Simple checkbox for single items
-            html += `<div class="item-info-single">`;
-            html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
-            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
-            html += `<span class="item-name">`;
-            html += this.escapeHtml(item.name);
-            if (item.quality === 'gold') html += ' ⭐ Gold';
-            if (item.strategy) html += ' 💡';
-            html += `</span>`;
-            html += `</label>`;
-            html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
-            html += `</div>`;
-        }
+        // Simple checkbox for all items (including quantity items)
+        html += `<div class="item-info-single">`;
+        html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
+        html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
+        html += `<span class="item-name">`;
+        if (hasQuantity) html += `${item.quantity}x `;
+        html += this.escapeHtml(item.name);
+        if (item.quality === 'gold') html += ' ⭐ Gold';
+        if (item.strategy) html += ' 💡';
+        html += `</span>`;
+        html += `</label>`;
+        html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
+        html += `</div>`;
 
         // Item subtitle (quick info)
         html += `<div class="item-subtitle" ${item.strategy ? `onclick="toggleStrategy('${itemId}')"` : ''}>`;
@@ -866,7 +845,7 @@ class BundleTracker {
 
     formatProgressItemHTML(item, bundleId, currentCount) {
         const hasQuantity = item.quantity && item.quantity > 1;
-        const isComplete = hasQuantity ? (currentCount >= item.quantity) : (currentCount > 0);
+        const isComplete = currentCount > 0;
         const difficultyClass = this.getDifficultyClass(item.difficulty);
         const difficultyLabel = this.getDifficultyLabel(item.difficulty);
         const priority = item.priority || 1;
@@ -881,36 +860,19 @@ class BundleTracker {
             html += `<span class="priority-icon">⚠️</span>`;
         }
 
-        if (hasQuantity) {
-            // Quantity counter widget
-            html += `<div class="item-info" onclick="toggleStrategy('${itemId}')">`;
-            html += `<span class="item-name">`;
-            html += this.escapeHtml(item.name);
-            if (item.quality === 'gold') html += ' ⭐ Gold';
-            if (item.strategy) html += ' 💡';
-            html += `</span>`;
-            html += `<span class="difficulty-badge ${difficultyClass}">${difficultyLabel}</span>`;
-            html += `</div>`;
-
-            html += `<div class="counter-widget ${isComplete ? 'complete' : ''}" onclick="event.stopPropagation()">`;
-            html += `<button class="counter-btn" onclick="decrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}')">−</button>`;
-            html += `<span class="counter-display">${currentCount} / ${item.quantity}</span>`;
-            html += `<button class="counter-btn" onclick="incrementItem('${this.escapeJs(bundleId)}', '${this.escapeJs(item.name)}', ${item.quantity})">+</button>`;
-            html += `</div>`;
-        } else {
-            // Simple checkbox
-            html += `<div class="item-info-single">`;
-            html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
-            html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
-            html += `<span class="item-name">`;
-            html += this.escapeHtml(item.name);
-            if (item.quality === 'gold') html += ' ⭐ Gold';
-            if (item.strategy) html += ' 💡';
-            html += `</span>`;
-            html += `</label>`;
-            html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
-            html += `</div>`;
-        }
+        // Simple checkbox for all items
+        html += `<div class="item-info-single">`;
+        html += `<label class="item-checkbox" onclick="event.stopPropagation()">`;
+        html += `<input type="checkbox" ${isComplete ? 'checked' : ''} data-item="${this.escapeJs(item.name)}" data-bundle="${bundleId}">`;
+        html += `<span class="item-name">`;
+        if (hasQuantity) html += `${item.quantity}x `;
+        html += this.escapeHtml(item.name);
+        if (item.quality === 'gold') html += ' ⭐ Gold';
+        if (item.strategy) html += ' 💡';
+        html += `</span>`;
+        html += `</label>`;
+        html += `<span class="difficulty-badge ${difficultyClass}" onclick="toggleStrategy('${itemId}')">${difficultyLabel}</span>`;
+        html += `</div>`;
 
         // Item subtitle
         html += `<div class="item-subtitle" ${item.strategy ? `onclick="toggleStrategy('${itemId}')"` : ''}>`;
