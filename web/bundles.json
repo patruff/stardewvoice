@@ -27,11 +27,11 @@
           "name": "Spring Fishing",
           "required": 5,
           "items": [
-            {"name": "Sunfish", "quality": "normal", "seasons": ["spring", "summer"], "difficulty": 1, "time": "day", "location": "freshwater", "weather": "sunny"},
-            {"name": "Catfish", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 4, "weather": "rain", "location": "freshwater", "priority": 4, "strategy": "RUN KILLER! Only available during rain in Spring & Fall. Don't miss rainy days!"},
-            {"name": "Shad", "quality": "normal", "seasons": ["spring", "summer", "fall"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
-            {"name": "Eel", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean"},
-            {"name": "Sardine", "quality": "normal", "seasons": ["spring", "fall", "winter"], "difficulty": 1, "time": "day", "location": "ocean"}
+            {"name": "Sunfish", "quality": "normal", "seasons": ["spring"], "difficulty": 1, "time": "day", "location": "freshwater", "weather": "sunny"},
+            {"name": "Catfish", "quality": "normal", "seasons": ["spring"], "difficulty": 4, "weather": "rain", "location": "freshwater", "priority": 4, "strategy": "RUN KILLER! Only available during rain in Spring & Fall. Don't miss rainy days!"},
+            {"name": "Shad", "quality": "normal", "seasons": ["spring"], "difficulty": 3, "weather": "rain", "location": "freshwater"},
+            {"name": "Eel", "quality": "normal", "seasons": ["spring"], "difficulty": 3, "time": "evening", "weather": "rain", "location": "ocean"},
+            {"name": "Sardine", "quality": "normal", "seasons": ["spring"], "difficulty": 1, "time": "day", "location": "ocean"}
           ]
         },
         "quality_parsnips": {
@@ -62,8 +62,8 @@
           "items": [
             {"name": "Poppy", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "priority": 3, "strategy": "Required for Chef's Bundle. Plant in Summer."},
             {"name": "Red Cabbage", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "priority": 4, "strategy": "RUN KILLER! Required for Dye Bundle. Seeds usually Year 2+ OR check Traveling Cart every Fri/Sun in Summer!"},
-            {"name": "Sunflower", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
-            {"name": "Wheat", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1, "quantity": 10}
+            {"name": "Sunflower", "quality": "normal", "seasons": ["summer"], "difficulty": 1},
+            {"name": "Wheat", "quality": "normal", "seasons": ["summer"], "difficulty": 1, "quantity": 10}
           ]
         },
         "summer_foraging": {
@@ -81,10 +81,10 @@
           "required": 5,
           "items": [
             {"name": "Pufferfish", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "noon", "location": "ocean", "weather": "sunny", "priority": 4, "strategy": "RUN KILLER! Summer only, sunny weather, 12pm-4pm. TIGHT WINDOW! Fish from beach on sunny days."},
-            {"name": "Tuna", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 3, "time": "day", "location": "ocean"},
-            {"name": "Red Snapper", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 3, "weather": "rain", "location": "ocean"},
-            {"name": "Tilapia", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 2, "time": "day", "location": "ocean"},
-            {"name": "Sturgeon", "quality": "normal", "seasons": ["summer", "winter"], "difficulty": 4, "time": "day", "location": "freshwater", "priority": 3, "strategy": "Mountain Lake only. Difficult catch. Fish 6am-7pm."}
+            {"name": "Tuna", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "time": "day", "location": "ocean"},
+            {"name": "Red Snapper", "quality": "normal", "seasons": ["summer"], "difficulty": 3, "weather": "rain", "location": "ocean"},
+            {"name": "Tilapia", "quality": "normal", "seasons": ["summer"], "difficulty": 2, "time": "day", "location": "ocean"},
+            {"name": "Sturgeon", "quality": "normal", "seasons": ["summer"], "difficulty": 4, "time": "day", "location": "freshwater", "priority": 3, "strategy": "Mountain Lake only. Difficult catch. Fish 6am-7pm."}
           ]
         }
       }
@@ -96,7 +96,7 @@
           "name": "Fall Crops",
           "required": 4,
           "items": [
-            {"name": "Corn", "quality": "normal", "seasons": ["summer", "fall"], "difficulty": 1},
+            {"name": "Corn", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Eggplant", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Pumpkin", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Yam", "quality": "normal", "seasons": ["fall"], "difficulty": 1}
@@ -106,7 +106,7 @@
           "name": "Fall Foraging",
           "required": 4,
           "items": [
-            {"name": "Common Mushroom", "quality": "normal", "seasons": ["spring", "fall"], "difficulty": 1},
+            {"name": "Common Mushroom", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Wild Plum", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Hazelnut", "quality": "normal", "seasons": ["fall"], "difficulty": 1},
             {"name": "Blackberry", "quality": "normal", "seasons": ["fall"], "difficulty": 1}
@@ -116,8 +116,8 @@
           "name": "Fall Fishing",
           "required": 2,
           "items": [
-            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "time": "day", "location": "freshwater"},
-            {"name": "Walleye", "quality": "normal", "seasons": ["fall", "winter"], "difficulty": 3, "weather": "rain", "time": "evening", "location": "freshwater", "priority": 3, "strategy": "Rain required. Available 12pm-2am in rivers and Mountain Lake."}
+            {"name": "Tiger Trout", "quality": "normal", "seasons": ["fall"], "difficulty": 3, "time": "day", "location": "freshwater"},
+            {"name": "Walleye", "quality": "normal", "seasons": ["fall"], "difficulty": 3, "weather": "rain", "time": "evening", "location": "freshwater", "priority": 3, "strategy": "Rain required. Available 12pm-2am in rivers and Mountain Lake."}
           ]
         }
       }
