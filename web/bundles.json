@@ -210,6 +210,46 @@
           ]
         }
       }
+    },
+    "traveling_cart": {
+      "name": "🛒 Traveling Cart",
+      "bundles": {
+        "tier_1_impossible": {
+          "name": "Tier 1: The \"Impossible\" Item",
+          "required": 1,
+          "items": [
+            {"name": "Red Cabbage", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 4, "priority": 4, "strategy": "MUST BUY! Mandatory for Year 1 Completion. Pierre doesn't sell seeds until Year 2. Unless you get lucky drop from Mummy/Serpent in Skull Cavern, the Cart is the ONLY way to finish Community Center in Year 1. Price: ~300g–1,000g. Check Cart every Friday & Sunday (6am-8pm) in Cindersap Forest."}
+          ]
+        },
+        "tier_2_money_savers": {
+          "name": "Tier 2: Big Money Savers",
+          "required": 4,
+          "items": [
+            {"name": "Truffle", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "priority": 4, "strategy": "HIGHEST PRIORITY! Saves ~43,000g. Strictly required for Chef's Bundle. If you buy this, you NEVER need Deluxe Barn + Pig. Huge time saver!"},
+            {"name": "Rabbit's Foot", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "priority": 3, "strategy": "HIGH PRIORITY! Saves ~28,000g. Needed for Enchanter's Bundle. If you buy this, skip Deluxe Coop + Rabbit entirely. Also saves you from RNG waiting."},
+            {"name": "Duck Feather", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "priority": 3, "strategy": "Saves ~13,000g. Needed for Dye Bundle. If you buy this + Duck Egg, you don't need to upgrade Coop past basic level."},
+            {"name": "Large Goat Milk", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "priority": 3, "strategy": "Saves ~16,000g. Needed for Animal Bundle (Pantry). If you buy this, you don't need to upgrade Barn past basic level."}
+          ]
+        },
+        "tier_3_bat_cave_backup": {
+          "name": "Tier 3: Bad Luck Protection (Bat Cave)",
+          "required": 2,
+          "items": [
+            {"name": "Apple", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "quantity": 3, "strategy": "Bat Cave Backup! Need 3 Apples for Fodder Bundle. Bats are RNG. If you have 2 apples and Winter is coming, buy the 3rd here!"},
+            {"name": "Pomegranate", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Bat Cave Backup! Need 1 Pomegranate for Enchanter's Bundle. If bats haven't dropped one by Winter, buy it here!"}
+          ]
+        },
+        "tier_4_skill_skips": {
+          "name": "Tier 4: Skill Skips (Hard Fish)",
+          "required": 4,
+          "items": [
+            {"name": "Pufferfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "strategy": "Skips Summer/Sunny fishing. Only available 12pm-4pm (tight 4-hour window). Buy if you missed Summer or hate the timing."},
+            {"name": "Sturgeon", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 3, "strategy": "Skips Mountain Lake fishing. Hard to catch (jumpy behavior). Buy if you're not confident in fishing skills."},
+            {"name": "Woodskip", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Skips Steel Axe upgrade! Normally found in Secret Woods (requires Steel Axe). Buy to delay expensive axe upgrade."},
+            {"name": "Sandfish", "quality": "normal", "seasons": ["spring", "summer", "fall", "winter"], "difficulty": 2, "strategy": "Skips Bus Repair (42,500g)! Normally requires Desert unlock. Buy to finish Specialty Fish bundle before Vault is done."}
+          ]
+        }
+      }
     }
   }
 }
