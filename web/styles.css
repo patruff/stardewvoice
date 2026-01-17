@@ -95,7 +95,8 @@ body {
 
 /* Season Selector - Tab Style */
 .season-selector {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     gap: 0;
     margin-bottom: 0;
     background: var(--wood-brown);
@@ -948,11 +949,12 @@ body {
     }
 
     .season-selector {
-        flex-wrap: wrap;
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .season-btn {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        padding: 0.5rem 0.25rem;
     }
 
     .bundle-count-badge {

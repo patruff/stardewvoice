@@ -414,8 +414,14 @@ class BundleTracker {
         const seasonalItems = {};
         const outOfSeasonItems = {};
 
+        // Special handling for Year Round and Traveling Cart categories
+        const isSpecialCategory = (normalizedSeason === 'year_round' || normalizedSeason === 'traveling_cart');
+
         // Collect all needed items
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
+            // If viewing a special category, only show that category
+            if (isSpecialCategory && categoryKey !== normalizedSeason) continue;
+
             for (const [bundleKey, bundle] of Object.entries(category.bundles)) {
                 const bundleId = `${categoryKey}.${bundleKey}`;
 
@@ -430,7 +436,8 @@ class BundleTracker {
                         // Skip already collected items
                         if (collectedInBundle.includes(item.name)) continue;
 
-                        const isInSeason = item.seasons.map(s => s.toLowerCase()).includes(normalizedSeason);
+                        // For special categories, show all items
+                        const isInSeason = isSpecialCategory || item.seasons.map(s => s.toLowerCase()).includes(normalizedSeason);
                         const itemData = { item, bundleName: bundle.name, bundleId };
 
                         if (isInSeason) {
@@ -444,7 +451,7 @@ class BundleTracker {
                                 };
                             }
                             seasonalItems[bundle.name].items.push(itemData);
-                        } else if (!this.strictMode) {
+                        } else if (!this.strictMode && !isSpecialCategory) {
                             // Out of season items
                             if (!outOfSeasonItems[bundle.name]) {
                                 outOfSeasonItems[bundle.name] = [];
@@ -458,7 +465,11 @@ class BundleTracker {
 
         // Build HTML result
         let html = `<div class="bundle-list">`;
-        html += `<h2 class="season-title">📋 Items for ${season.charAt(0).toUpperCase() + season.slice(1)}</h2>`;
+        // Format title based on category
+        let titleText = season.charAt(0).toUpperCase() + season.slice(1);
+        if (season === 'year_round') titleText = '⚙️ Year Round';
+        if (season === 'traveling_cart') titleText = '🛒 Traveling Cart';
+        html += `<h2 class="season-title">📋 ${titleText}</h2>`;
 
         // Show seasonal items grouped by bundle
         const seasonalBundles = Object.keys(seasonalItems).sort();
@@ -714,8 +725,12 @@ class BundleTracker {
 
         // First pass: collect bundle info
         const bundlesByCategory = {};
+        const isSpecialCategory = (this.currentSeason === 'year_round' || this.currentSeason === 'traveling_cart');
 
         for (const [categoryKey, category] of Object.entries(this.bundles.bundles)) {
+            // If viewing a special category, only show that category
+            if (isSpecialCategory && categoryKey !== this.currentSeason) continue;
+
             bundlesByCategory[categoryKey] = {
                 name: category.name,
                 bundles: []
@@ -727,26 +742,31 @@ class BundleTracker {
                 const collectedCount = collectedInBundle.length;
                 const isComplete = this.progress.completedBundles.includes(bundleId);
 
-                // Check if bundle has UNCOLLECTED items for current season
-                const hasSeasonalItemsNeeded = bundle.items.some(item => {
-                    // Skip already collected items
-                    if (collectedInBundle.includes(item.name)) return false;
+                // For special categories, show all bundles
+                let hasSeasonalItemsNeeded = isSpecialCategory;
 
-                    // Check if item is available in current season
-                    const availableNow = item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase());
-                    if (!availableNow) return false;
+                if (!isSpecialCategory) {
+                    // Check if bundle has UNCOLLECTED items for current season
+                    hasSeasonalItemsNeeded = bundle.items.some(item => {
+                        // Skip already collected items
+                        if (collectedInBundle.includes(item.name)) return false;
 
-                    // In strict mode, exclude year-round items (available all 4 seasons)
-                    if (this.strictMode) {
-                        const isYearRound = item.seasons.length === 4;
-                        return !isYearRound;
-                    }
+                        // Check if item is available in current season
+                        const availableNow = item.seasons.map(s => s.toLowerCase()).includes(this.currentSeason.toLowerCase());
+                        if (!availableNow) return false;
 
-                    return true;
-                });
+                        // In strict mode, exclude year-round items (available all 4 seasons)
+                        if (this.strictMode) {
+                            const isYearRound = item.seasons.length === 4;
+                            return !isYearRound;
+                        }
+
+                        return true;
+                    });
+                }
 
                 // Skip bundle if strict mode and no seasonal items needed (unless completed)
-                if (this.strictMode && !hasSeasonalItemsNeeded && !isComplete) {
+                if (!isSpecialCategory && this.strictMode && !hasSeasonalItemsNeeded && !isComplete) {
                     continue;
                 }
 
@@ -766,7 +786,16 @@ class BundleTracker {
 
         // Build HTML result
         let html = `<div class="bundle-list">`;
-        const seasonTitle = this.strictMode ? ` - ${this.currentSeason.charAt(0).toUpperCase() + this.currentSeason.slice(1)}` : '';
+        let seasonTitle = '';
+        if (this.strictMode) {
+            if (this.currentSeason === 'year_round') {
+                seasonTitle = ' - ⚙️ Year Round';
+            } else if (this.currentSeason === 'traveling_cart') {
+                seasonTitle = ' - 🛒 Traveling Cart';
+            } else {
+                seasonTitle = ` - ${this.currentSeason.charAt(0).toUpperCase() + this.currentSeason.slice(1)}`;
+            }
+        }
         html += `<h2 class="season-title">📊 Bundle Progress${seasonTitle}</h2>`;
 
         // Second pass: display bundles
@@ -799,7 +828,7 @@ class BundleTracker {
                 // Show items (filter by season in strict mode)
                 let itemsToShow = bundle.items;
 
-                if (this.strictMode) {
+                if (this.strictMode && !isSpecialCategory) {
                     // Only show items available in current season (or year-round items)
                     itemsToShow = bundle.items.filter(item => {
                         const seasons = item.seasons.map(s => s.toLowerCase());
